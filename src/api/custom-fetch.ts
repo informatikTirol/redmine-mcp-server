@@ -1,12 +1,21 @@
 export const customFetch = async (url: string, options?: RequestInit) => {
+  if (!process.env.REDMINE_API_KEY) {
+    throw new Error("REDMINE_API_KEY environment variable is not set");
+  }
+
   const headers: HeadersInit = {
     "X-Redmine-API-Key": process.env.REDMINE_API_KEY!,
     ...options?.headers,
   };
 
-  console.error(`Fetching URL: ${url}`);
+  if (!process.env.REDMINE_URL) {
+    throw new Error("REDMINE_URL environment variable is not set");
+  }
+  const fullUrl = new URL(url, process.env.REDMINE_URL).toString();
 
-  const res = await fetch(url, {
+  console.error(`Fetching URL: ${fullUrl}`);
+
+  const res = await fetch(fullUrl, {
     ...options,
     headers,
   });

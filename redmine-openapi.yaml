@@ -1,13 +1,17 @@
 openapi: 3.0.3
 info:
   title: Redmine API
-  description: Unofficial OpenAPI specification for the Redmine API.
+  description: |
+    Unofficial OpenAPI specification for the Redmine API.
+    This specification is modified from the original d-yoshi/redmine-openapi project 
+    to support MCP (Model Context Protocol) server implementation.
+    Original source: https://github.com/d-yoshi/redmine-openapi
   contact:
-    name: d-yoshi/redmine-openapi
-    url: https://github.com/d-yoshi/redmine-openapi
+    name: onozaty/redmine-mcp-server
+    url: https://github.com/onozaty/redmine-mcp-server
   license:
     name: MIT
-    url: https://github.com/d-yoshi/redmine-openapi/blob/main/LICENSE
+    url: https://github.com/onozaty/redmine-mcp-server/blob/main/LICENSE
   version: 0.16.0
 servers:
   - url: /

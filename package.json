@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "gen": "rm -rf src/__generated__ && orval && node post-generate.js",
-    "build": "pnpm gen && tsdown src/__generated__/server.ts"
+    "build": "pnpm gen && tsdown src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.10.1",
+    "@modelcontextprotocol/sdk": "1.15.0",
     "zod": "^3.25.75"
   }
 }
