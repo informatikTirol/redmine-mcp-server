@@ -451,7 +451,7 @@ paths:
                 properties:
                   issue:
                     $ref: "#/components/schemas/issue.simple"
-  /issues/{issue_id}.{format}:
+  /issues/{issueId}.{format}:
     get:
       tags:
         - Issues
@@ -584,7 +584,7 @@ paths:
       responses:
         "204":
           description: ""
-  /issues/{issue_id}/watchers.{format}:
+  /issues/{issueId}/watchers.{format}:
     post:
       tags:
         - Issues
@@ -609,7 +609,7 @@ paths:
       responses:
         "204":
           description: ""
-  /issues/{issue_id}/watchers/{user_id}.{format}:
+  /issues/{issueId}/watchers/{userId}.{format}:
     delete:
       tags:
         - Issues
@@ -797,7 +797,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /projects/{project_id}.{format}:
+  /projects/{projectId}.{format}:
     get:
       tags:
         - Projects
@@ -908,7 +908,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/archive.{format}:
+  /projects/{projectId}/archive.{format}:
     put:
       tags:
         - Projects
@@ -923,7 +923,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/unarchive.{format}:
+  /projects/{projectId}/unarchive.{format}:
     put:
       tags:
         - Projects
@@ -938,7 +938,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/memberships.{format}:
+  /projects/{projectId}/memberships.{format}:
     get:
       tags:
         - Project Memberships
@@ -1017,7 +1017,7 @@ paths:
                 properties:
                   membership:
                     $ref: "#/components/schemas/membership"
-  /memberships/{membership_id}.{format}:
+  /memberships/{membershipId}.{format}:
     get:
       tags:
         - Project Memberships
@@ -1090,7 +1090,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/close.{format}:
+  /projects/{projectId}/close.{format}:
     put:
       tags:
         - Projects
@@ -1103,7 +1103,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/reopen.{format}:
+  /projects/{projectId}/reopen.{format}:
     put:
       tags:
         - Projects
@@ -1249,7 +1249,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /users/{user_id}.{format}:
+  /users/{userId}.{format}:
     get:
       tags:
         - Users
@@ -1607,7 +1607,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /time_entries/{time_entry_id}.{format}:
+  /time_entries/{timeEntryId}.{format}:
     get:
       tags:
         - Time Entries
@@ -1730,7 +1730,7 @@ paths:
                     type: integer
                   limit:
                     type: integer
-  /news/{news_id}.{format}:
+  /news/{newsId}.{format}:
     get:
       tags:
         - News
@@ -1814,7 +1814,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/news.{format}:
+  /projects/{projectId}/news.{format}:
     get:
       tags:
         - News
@@ -1892,7 +1892,7 @@ paths:
       responses:
         "204":
           description: ""
-  /issues/{issue_id}/relations.{format}:
+  /issues/{issueId}/relations.{format}:
     get:
       tags:
         - Issue Relations
@@ -1978,7 +1978,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /relations/{issue_relation_id}.{format}:
+  /relations/{issueRelationId}.{format}:
     get:
       tags:
         - Issue Relations
@@ -2022,7 +2022,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /projects/{project_id}/versions.{format}:
+  /projects/{projectId}/versions.{format}:
     get:
       tags:
         - Versions
@@ -2123,7 +2123,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /versions/{version_id}.{format}:
+  /versions/{versionId}.{format}:
     get:
       tags:
         - Versions
@@ -2225,7 +2225,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /projects/{project_id}/wiki/index.{format}:
+  /projects/{projectId}/wiki/index.{format}:
     get:
       tags:
         - Wiki Pages
@@ -2251,7 +2251,7 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/wiki_pages"
-  /projects/{project_id}/wiki/{wiki_page_title}.{format}:
+  /projects/{projectId}/wiki/{wikiPageTitle}.{format}:
     get:
       tags:
         - Wiki Pages
@@ -2352,7 +2352,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/wiki/{wiki_page_title}/{version_id}.{format}:
+  /projects/{projectId}/wiki/{wikiPageTitle}/{versionId}.{format}:
     get:
       tags:
         - Wiki Pages
@@ -2419,7 +2419,7 @@ paths:
                     type: integer
                   limit:
                     type: integer
-  /attachments/{attachment_id}.{format}:
+  /attachments/{attachmentId}.{format}:
     get:
       tags:
         - Attachments
@@ -2484,7 +2484,7 @@ paths:
       responses:
         "204":
           description: ""
-  /attachments/download/{attachment_id}/{filename}:
+  /attachments/download/{attachmentId}/{filename}:
     get:
       tags:
         - Attachments
@@ -2502,7 +2502,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /attachments/thumbnail/{attachment_id}:
+  /attachments/thumbnail/{attachmentId}:
     get:
       tags:
         - Attachments
@@ -2569,7 +2569,7 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/tracker"
-  /projects/{project_id}/issue_categories.{format}:
+  /projects/{projectId}/issue_categories.{format}:
     get:
       tags:
         - Issue Categories
@@ -2720,7 +2720,7 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/document_category"
-  /issue_categories/{issue_category_id}.{format}:
+  /issue_categories/{issueCategoryId}.{format}:
     get:
       tags:
         - Issue Categories
@@ -2820,7 +2820,7 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/id_name"
-  /roles/{role_id}.{format}:
+  /roles/{roleId}.{format}:
     get:
       tags:
         - Roles
@@ -2916,7 +2916,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /groups/{group_id}.{format}:
+  /groups/{groupId}.{format}:
     get:
       tags:
         - Groups
@@ -2997,7 +2997,7 @@ paths:
       responses:
         "204":
           description: ""
-  /groups/{group_id}/users.{format}:
+  /groups/{groupId}/users.{format}:
     post:
       tags:
         - Groups
@@ -3022,7 +3022,7 @@ paths:
       responses:
         "204":
           description: ""
-  /groups/{group_id}/users/{user_id}.{format}:
+  /groups/{groupId}/users/{userId}.{format}:
     delete:
       tags:
         - Groups
@@ -3179,7 +3179,7 @@ paths:
                     type: integer
                   limit:
                     type: integer
-  /projects/{project_id}/files.{format}:
+  /projects/{projectId}/files.{format}:
     get:
       tags:
         - Files
@@ -3334,7 +3334,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /journals/{journal_id}.{format}:
+  /journals/{journalId}.{format}:
     put:
       tags:
         - Journals
@@ -3408,7 +3408,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
-  /projects/{project_id}/repository/{repository_id}/revisions/{revision}/issues.{format}:
+  /projects/{projectId}/repository/{repositoryId}/revisions/{revision}/issues.{format}:
     post:
       tags:
         - Repositories
@@ -3433,7 +3433,7 @@ paths:
       responses:
         "204":
           description: ""
-  /projects/{project_id}/repository/{repository_id}/revisions/{revision}/issues/{issue_id}.{format}:
+  /projects/{projectId}/repository/{repositoryId}/revisions/{revision}/issues/{issueId}.{format}:
     delete:
       tags:
         - Repositories
@@ -3503,61 +3503,61 @@ components:
         enum:
           - 1
     issue_id:
-      name: issue_id
+      name: issueId
       in: path
       required: true
       schema:
         type: integer
     user_id:
-      name: user_id
+      name: userId
       in: path
       required: true
       schema:
         type: integer
     project_id:
-      name: project_id
+      name: projectId
       in: path
       required: true
       schema:
         type: integer
     membership_id:
-      name: membership_id
+      name: membershipId
       in: path
       required: true
       schema:
         type: integer
     time_entry_id:
-      name: time_entry_id
+      name: timeEntryId
       in: path
       required: true
       schema:
         type: integer
     news_id:
-      name: news_id
+      name: newsId
       in: path
       required: true
       schema:
         type: integer
     issue_relation_id:
-      name: issue_relation_id
+      name: issueRelationId
       in: path
       required: true
       schema:
         type: integer
     version_id:
-      name: version_id
+      name: versionId
       in: path
       required: true
       schema:
         type: integer
     wiki_page_title:
-      name: wiki_page_title
+      name: wikiPageTitle
       in: path
       required: true
       schema:
         type: string
     attachment_id:
-      name: attachment_id
+      name: attachmentId
       in: path
       required: true
       schema:
@@ -3569,31 +3569,31 @@ components:
       schema:
         type: string
     issue_category_id:
-      name: issue_category_id
+      name: issueCategoryId
       in: path
       required: true
       schema:
         type: integer
     role_id:
-      name: role_id
+      name: roleId
       in: path
       required: true
       schema:
         type: integer
     group_id:
-      name: group_id
+      name: groupId
       in: path
       required: true
       schema:
         type: integer
     journal_id:
-      name: journal_id
+      name: journalId
       in: path
       required: true
       schema:
         type: integer
     repository_id:
-      name: repository_id
+      name: repositoryId
       in: path
       required: true
       schema:
