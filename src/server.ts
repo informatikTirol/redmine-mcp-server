@@ -1,10 +1,23 @@
+#!/usr/bin/env node
 /**
  * Custom MCP server that extends the generated server with file upload/download capabilities
  */
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import {
+  McpServer,
+  ToolCallback,
+} from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import packageJson from "../package.json" assert { type: "json" };
+
+import { config } from "./config.js";
+
+// Tool classification enum
+enum ToolType {
+  READ_ONLY = "read_only",
+  WRITE = "write",
+}
 
 // Import generated handlers
 import {
@@ -230,6 +243,7 @@ import {
 } from "./__generated__/tool-schemas.zod.js";
 
 // Import custom attachment functionality
+import { ZodRawShape } from "zod";
 import { downloadFileHandler } from "./attachment/download-handler.js";
 import { downloadThumbnailHandler } from "./attachment/thumbnail-handler.js";
 import { uploadFileHandler } from "./attachment/upload-handler.js";
@@ -241,558 +255,690 @@ import {
 
 const server = new McpServer({
   name: "redmineAPIServer",
-  version: "1.0.0",
+  version: packageJson.version,
 });
 
+// Track registered tools for statistics
+const registeredTools = new Map<string, ToolType>();
+
+/**
+ * Helper function to conditionally register tools based on read-only mode
+ */
+const registerTool = <Args extends ZodRawShape>(
+  toolName: string,
+  description: string,
+  toolType: ToolType,
+  schemas: Args,
+  handler: ToolCallback<Args>
+) => {
+  // Track tool registration for statistics
+  registeredTools.set(toolName, toolType);
+
+  if (config.readOnlyMode && toolType === ToolType.WRITE) {
+    // Skip registration of write tools in read-only mode
+    return;
+  }
+  server.tool(toolName, description, schemas, handler);
+};
+
+// Log server mode after all tools are registered
+const logServerMode = () => {
+  const readOnlyCount = Array.from(registeredTools.values()).filter(
+    (t) => t === ToolType.READ_ONLY
+  ).length;
+  const writeCount = Array.from(registeredTools.values()).filter(
+    (t) => t === ToolType.WRITE
+  ).length;
+
+  if (config.readOnlyMode) {
+    console.error("Starting Redmine MCP Server in READ-ONLY mode");
+    console.error(`Available tools: ${readOnlyCount} read-only operations`);
+    console.error(`Disabled tools: ${writeCount} write operations`);
+  } else {
+    console.error("Starting Redmine MCP Server in FULL mode");
+    console.error(`Available tools: ${readOnlyCount + writeCount} operations`);
+  }
+};
+
 // Register all generated tools
-server.tool(
+registerTool(
   "getIssues",
   "List issues",
+  ToolType.READ_ONLY,
   { pathParams: getIssuesParams, queryParams: getIssuesQueryParams },
   getIssuesHandler
 );
-server.tool(
+registerTool(
   "createIssue",
   "Create issue",
+  ToolType.WRITE,
   { pathParams: createIssueParams, bodyParams: createIssueBody },
   createIssueHandler
 );
-server.tool(
+registerTool(
   "getIssue",
   "Show issue",
+  ToolType.READ_ONLY,
   { pathParams: getIssueParams, queryParams: getIssueQueryParams },
   getIssueHandler
 );
-server.tool(
+registerTool(
   "updateIssue",
   "Update issue",
+  ToolType.WRITE,
   { pathParams: updateIssueParams, bodyParams: updateIssueBody },
   updateIssueHandler
 );
-server.tool(
+registerTool(
   "deleteIssue",
   "Delete issue",
+  ToolType.WRITE,
   { pathParams: deleteIssueParams },
   deleteIssueHandler
 );
-server.tool(
+registerTool(
   "addWatcher",
   "Add watcher",
+  ToolType.WRITE,
   { pathParams: addWatcherParams, bodyParams: addWatcherBody },
   addWatcherHandler
 );
-server.tool(
+registerTool(
   "removeWatcher",
   "Remove watcher",
+  ToolType.WRITE,
   { pathParams: removeWatcherParams },
   removeWatcherHandler
 );
-server.tool(
+registerTool(
   "getProjects",
   "List projects",
+  ToolType.READ_ONLY,
   { pathParams: getProjectsParams, queryParams: getProjectsQueryParams },
   getProjectsHandler
 );
-server.tool(
+registerTool(
   "createProject",
   "Create project",
+  ToolType.WRITE,
   { pathParams: createProjectParams, bodyParams: createProjectBody },
   createProjectHandler
 );
-server.tool(
+registerTool(
   "getProject",
   "Show project",
+  ToolType.READ_ONLY,
   { pathParams: getProjectParams, queryParams: getProjectQueryParams },
   getProjectHandler
 );
-server.tool(
+registerTool(
   "updateProject",
   "Update project",
+  ToolType.WRITE,
   { pathParams: updateProjectParams, bodyParams: updateProjectBody },
   updateProjectHandler
 );
-server.tool(
+registerTool(
   "deleteProject",
   "Delete project",
+  ToolType.WRITE,
   { pathParams: deleteProjectParams },
   deleteProjectHandler
 );
-server.tool(
+registerTool(
   "archiveProject",
   "Archive project",
+  ToolType.WRITE,
   { pathParams: archiveProjectParams },
   archiveProjectHandler
 );
-server.tool(
+registerTool(
   "unarchiveProject",
   "Unarchive project",
+  ToolType.WRITE,
   { pathParams: unarchiveProjectParams },
   unarchiveProjectHandler
 );
-server.tool(
+registerTool(
   "getMemberships",
   "List memberships",
+  ToolType.READ_ONLY,
   { pathParams: getMembershipsParams, queryParams: getMembershipsQueryParams },
   getMembershipsHandler
 );
-server.tool(
+registerTool(
   "createMembership",
   "Create membership",
+  ToolType.WRITE,
   { pathParams: createMembershipParams, bodyParams: createMembershipBody },
   createMembershipHandler
 );
-server.tool(
+registerTool(
   "getMembership",
   "Show membership",
+  ToolType.READ_ONLY,
   { pathParams: getMembershipParams },
   getMembershipHandler
 );
-server.tool(
+registerTool(
   "updateMembership",
   "Update membership",
+  ToolType.WRITE,
   { pathParams: updateMembershipParams, bodyParams: updateMembershipBody },
   updateMembershipHandler
 );
-server.tool(
+registerTool(
   "deleteMembership",
   "Delete membership",
+  ToolType.WRITE,
   { pathParams: deleteMembershipParams },
   deleteMembershipHandler
 );
-server.tool(
+registerTool(
   "closeProject",
   "Close project",
+  ToolType.WRITE,
   { pathParams: closeProjectParams },
   closeProjectHandler
 );
-server.tool(
+registerTool(
   "reopenProject",
   "Reopen project",
+  ToolType.WRITE,
   { pathParams: reopenProjectParams },
   reopenProjectHandler
 );
-server.tool(
+registerTool(
   "getUsers",
   "List users",
+  ToolType.READ_ONLY,
   { pathParams: getUsersParams, queryParams: getUsersQueryParams },
   getUsersHandler
 );
-server.tool(
+registerTool(
   "createUser",
   "Create user",
+  ToolType.WRITE,
   { pathParams: createUserParams, bodyParams: createUserBody },
   createUserHandler
 );
-server.tool(
+registerTool(
   "getUser",
   "Show user",
+  ToolType.READ_ONLY,
   { pathParams: getUserParams, queryParams: getUserQueryParams },
   getUserHandler
 );
-server.tool(
+registerTool(
   "updateUser",
   "Update user",
+  ToolType.WRITE,
   { pathParams: updateUserParams, bodyParams: updateUserBody },
   updateUserHandler
 );
-server.tool(
+registerTool(
   "deleteUser",
   "Delete user",
+  ToolType.WRITE,
   { pathParams: deleteUserParams },
   deleteUserHandler
 );
-server.tool(
+registerTool(
   "getCurrentUser",
   "Show current user",
+  ToolType.READ_ONLY,
   { pathParams: getCurrentUserParams, queryParams: getCurrentUserQueryParams },
   getCurrentUserHandler
 );
-server.tool(
+registerTool(
   "getTimeEntries",
   "List time entries",
+  ToolType.READ_ONLY,
   { pathParams: getTimeEntriesParams, queryParams: getTimeEntriesQueryParams },
   getTimeEntriesHandler
 );
-server.tool(
+registerTool(
   "createTimeEntry",
   "Create time entry",
+  ToolType.WRITE,
   { pathParams: createTimeEntryParams, bodyParams: createTimeEntryBody },
   createTimeEntryHandler
 );
-server.tool(
+registerTool(
   "getTimeEntry",
   "Show time entry",
+  ToolType.READ_ONLY,
   { pathParams: getTimeEntryParams },
   getTimeEntryHandler
 );
-server.tool(
+registerTool(
   "updateTimeEntry",
   "Update time entry",
+  ToolType.WRITE,
   { pathParams: updateTimeEntryParams, bodyParams: updateTimeEntryBody },
   updateTimeEntryHandler
 );
-server.tool(
+registerTool(
   "deleteTimeEntry",
   "Delete time entry",
+  ToolType.WRITE,
   { pathParams: deleteTimeEntryParams },
   deleteTimeEntryHandler
 );
-server.tool(
+registerTool(
   "getNewsList",
   "List news",
+  ToolType.READ_ONLY,
   { pathParams: getNewsListParams, queryParams: getNewsListQueryParams },
   getNewsListHandler
 );
-server.tool(
+registerTool(
   "getNews",
   "Show news",
+  ToolType.READ_ONLY,
   { pathParams: getNewsParams, queryParams: getNewsQueryParams },
   getNewsHandler
 );
-server.tool(
+registerTool(
   "updateNews",
   "Update news",
+  ToolType.WRITE,
   { pathParams: updateNewsParams, bodyParams: updateNewsBody },
   updateNewsHandler
 );
-server.tool(
+registerTool(
   "deleteNews",
   "Delete news",
+  ToolType.WRITE,
   { pathParams: deleteNewsParams },
   deleteNewsHandler
 );
-server.tool(
+registerTool(
   "getNewsListByProject",
   "List news by project",
+  ToolType.READ_ONLY,
   {
     pathParams: getNewsListByProjectParams,
     queryParams: getNewsListByProjectQueryParams,
   },
   getNewsListByProjectHandler
 );
-server.tool(
+registerTool(
   "createNews",
   "Create news",
+  ToolType.WRITE,
   { pathParams: createNewsParams, bodyParams: createNewsBody },
   createNewsHandler
 );
-server.tool(
+registerTool(
   "getIssueRelations",
   "List issue relations",
+  ToolType.READ_ONLY,
   { pathParams: getIssueRelationsParams },
   getIssueRelationsHandler
 );
-server.tool(
+registerTool(
   "createIssueRelation",
   "Create issue relation",
+  ToolType.WRITE,
   {
     pathParams: createIssueRelationParams,
     bodyParams: createIssueRelationBody,
   },
   createIssueRelationHandler
 );
-server.tool(
+registerTool(
   "getIssueRelation",
   "Show issue relation",
+  ToolType.READ_ONLY,
   { pathParams: getIssueRelationParams },
   getIssueRelationHandler
 );
-server.tool(
+registerTool(
   "deleteIssueRelation",
   "Delete issue relation",
+  ToolType.WRITE,
   { pathParams: deleteIssueRelationParams },
   deleteIssueRelationHandler
 );
-server.tool(
+registerTool(
   "getVersionsByProject",
   "List versions by project",
+  ToolType.READ_ONLY,
   {
     pathParams: getVersionsByProjectParams,
     queryParams: getVersionsByProjectQueryParams,
   },
   getVersionsByProjectHandler
 );
-server.tool(
+registerTool(
   "createVersion",
   "Create version",
+  ToolType.WRITE,
   { pathParams: createVersionParams, bodyParams: createVersionBody },
   createVersionHandler
 );
-server.tool(
+registerTool(
   "getVersions",
   "Show version",
+  ToolType.READ_ONLY,
   { pathParams: getVersionsParams },
   getVersionsHandler
 );
-server.tool(
+registerTool(
   "updateVersion",
   "Update version",
+  ToolType.WRITE,
   { pathParams: updateVersionParams, bodyParams: updateVersionBody },
   updateVersionHandler
 );
-server.tool(
+registerTool(
   "deleteVersion",
   "Delete version",
+  ToolType.WRITE,
   { pathParams: deleteVersionParams },
   deleteVersionHandler
 );
-server.tool(
+registerTool(
   "getWikiPages",
   "List wiki pages",
+  ToolType.READ_ONLY,
   { pathParams: getWikiPagesParams },
   getWikiPagesHandler
 );
-server.tool(
+registerTool(
   "getWikiPage",
   "Show wiki page",
+  ToolType.READ_ONLY,
   { pathParams: getWikiPageParams, queryParams: getWikiPageQueryParams },
   getWikiPageHandler
 );
-server.tool(
+registerTool(
   "updateWikiPage",
   "Create or update wiki page",
+  ToolType.WRITE,
   { pathParams: updateWikiPageParams, bodyParams: updateWikiPageBody },
   updateWikiPageHandler
 );
-server.tool(
+registerTool(
   "deleteWikiPage",
   "Delete wiki page",
+  ToolType.WRITE,
   { pathParams: deleteWikiPageParams },
   deleteWikiPageHandler
 );
-server.tool(
+registerTool(
   "getWikiPageByVersion",
   "Show wiki page by specific version",
+  ToolType.READ_ONLY,
   {
     pathParams: getWikiPageByVersionParams,
     queryParams: getWikiPageByVersionQueryParams,
   },
   getWikiPageByVersionHandler
 );
-server.tool(
+registerTool(
   "getQueries",
   "List queries",
+  ToolType.READ_ONLY,
   { pathParams: getQueriesParams, queryParams: getQueriesQueryParams },
   getQueriesHandler
 );
-server.tool(
+registerTool(
   "getAttachment",
   "Show attachment",
+  ToolType.READ_ONLY,
   { pathParams: getAttachmentParams },
   getAttachmentHandler
 );
-server.tool(
+registerTool(
   "updateAttachment",
   "Update attachment",
+  ToolType.WRITE,
   { pathParams: updateAttachmentParams, bodyParams: updateAttachmentBody },
   updateAttachmentHandler
 );
-server.tool(
+registerTool(
   "deleteAttachment",
   "Delete attachment",
+  ToolType.WRITE,
   { pathParams: deleteAttachmentParams },
   deleteAttachmentHandler
 );
-server.tool(
+registerTool(
   "getIssueStatuses",
   "List issue statuses",
+  ToolType.READ_ONLY,
   { pathParams: getIssueStatusesParams },
   getIssueStatusesHandler
 );
-server.tool(
+registerTool(
   "getTrackers",
   "List trackers",
+  ToolType.READ_ONLY,
   { pathParams: getTrackersParams },
   getTrackersHandler
 );
-server.tool(
+registerTool(
   "getIssueCategories",
   "List issue categories",
+  ToolType.READ_ONLY,
   {
     pathParams: getIssueCategoriesParams,
     queryParams: getIssueCategoriesQueryParams,
   },
   getIssueCategoriesHandler
 );
-server.tool(
+registerTool(
   "createIssueCategory",
   "Create issue category",
+  ToolType.WRITE,
   {
     pathParams: createIssueCategoryParams,
     bodyParams: createIssueCategoryBody,
   },
   createIssueCategoryHandler
 );
-server.tool(
+registerTool(
   "getIssuePriorities",
   "List issue priorities",
+  ToolType.READ_ONLY,
   { pathParams: getIssuePrioritiesParams },
   getIssuePrioritiesHandler
 );
-server.tool(
+registerTool(
   "getTimeEntryActivities",
   "List time entry activities",
+  ToolType.READ_ONLY,
   { pathParams: getTimeEntryActivitiesParams },
   getTimeEntryActivitiesHandler
 );
-server.tool(
+registerTool(
   "getDocumentCategories",
   "List document categories",
+  ToolType.READ_ONLY,
   { pathParams: getDocumentCategoriesParams },
   getDocumentCategoriesHandler
 );
-server.tool(
+registerTool(
   "getIssueCategory",
   "Show issue category",
+  ToolType.READ_ONLY,
   { pathParams: getIssueCategoryParams },
   getIssueCategoryHandler
 );
-server.tool(
+registerTool(
   "updateIssueCategory",
   "Update issue category",
+  ToolType.WRITE,
   {
     pathParams: updateIssueCategoryParams,
     bodyParams: updateIssueCategoryBody,
   },
   updateIssueCategoryHandler
 );
-server.tool(
+registerTool(
   "deleteIssueCategory",
   "Delete issue category",
+  ToolType.WRITE,
   {
     pathParams: deleteIssueCategoryParams,
     queryParams: deleteIssueCategoryQueryParams,
   },
   deleteIssueCategoryHandler
 );
-server.tool(
+registerTool(
   "getRoles",
   "List roles",
+  ToolType.READ_ONLY,
   { pathParams: getRolesParams },
   getRolesHandler
 );
-server.tool(
+registerTool(
   "getRole",
   "Show role",
+  ToolType.READ_ONLY,
   { pathParams: getRoleParams },
   getRoleHandler
 );
-server.tool(
+registerTool(
   "getGroups",
   "List groups",
+  ToolType.READ_ONLY,
   { pathParams: getGroupsParams },
   getGroupsHandler
 );
-server.tool(
+registerTool(
   "createGroup",
   "Create group",
+  ToolType.WRITE,
   { pathParams: createGroupParams, bodyParams: createGroupBody },
   createGroupHandler
 );
-server.tool(
+registerTool(
   "getGroup",
   "Show group",
+  ToolType.READ_ONLY,
   { pathParams: getGroupParams, queryParams: getGroupQueryParams },
   getGroupHandler
 );
-server.tool(
+registerTool(
   "updateGroup",
   "Update group",
+  ToolType.WRITE,
   { pathParams: updateGroupParams, bodyParams: updateGroupBody },
   updateGroupHandler
 );
-server.tool(
+registerTool(
   "deleteGroup",
   "Delete group",
+  ToolType.WRITE,
   { pathParams: deleteGroupParams },
   deleteGroupHandler
 );
-server.tool(
+registerTool(
   "addUserToGroup",
   "Add user to group",
+  ToolType.WRITE,
   { pathParams: addUserToGroupParams, bodyParams: addUserToGroupBody },
   addUserToGroupHandler
 );
-server.tool(
+registerTool(
   "removeUserFromGroup",
   "Remove user from group",
+  ToolType.WRITE,
   { pathParams: removeUserFromGroupParams },
   removeUserFromGroupHandler
 );
-server.tool(
+registerTool(
   "getCustomFields",
   "List custom fields",
+  ToolType.READ_ONLY,
   { pathParams: getCustomFieldsParams },
   getCustomFieldsHandler
 );
-server.tool(
+registerTool(
   "search",
   "Search",
+  ToolType.READ_ONLY,
   { pathParams: searchParams, queryParams: searchQueryParams },
   searchHandler
 );
-server.tool(
+registerTool(
   "getFiles",
   "List files",
+  ToolType.READ_ONLY,
   { pathParams: getFilesParams },
   getFilesHandler
 );
-server.tool(
+registerTool(
   "createFile",
   "Create file",
+  ToolType.WRITE,
   { pathParams: createFileParams, bodyParams: createFileBody },
   createFileHandler
 );
-server.tool(
+registerTool(
   "getMyAccount",
   "Show my account",
+  ToolType.READ_ONLY,
   { pathParams: getMyAccountParams },
   getMyAccountHandler
 );
-server.tool(
+registerTool(
   "updateMyAccount",
   "Update my account",
+  ToolType.WRITE,
   { pathParams: updateMyAccountParams, bodyParams: updateMyAccountBody },
   updateMyAccountHandler
 );
-server.tool(
+registerTool(
   "updateJournal",
   "Update journal",
+  ToolType.WRITE,
   { pathParams: updateJournalParams, bodyParams: updateJournalBody },
   updateJournalHandler
 );
-server.tool(
+registerTool(
   "addRelatedIssue",
   "Add related issue",
+  ToolType.WRITE,
   { pathParams: addRelatedIssueParams, bodyParams: addRelatedIssueBody },
   addRelatedIssueHandler
 );
-server.tool(
+registerTool(
   "removeRelatedIssue",
   "Remove related issue",
+  ToolType.WRITE,
   { pathParams: removeRelatedIssueParams },
   removeRelatedIssueHandler
 );
 
 // Register custom attachment tools
-server.tool(
+registerTool(
   "uploadAttachmentFile",
   "Upload attachment file to Redmine and get upload token",
+  ToolType.WRITE,
   { pathParams: uploadFileParams },
   uploadFileHandler
 );
-server.tool(
+registerTool(
   "downloadAttachmentFile",
   "Download attachment file from Redmine to local file",
+  ToolType.READ_ONLY,
   { pathParams: downloadFileParams },
   downloadFileHandler
 );
-server.tool(
+registerTool(
   "downloadThumbnail",
   "Download thumbnail from Redmine to local file",
+  ToolType.READ_ONLY,
   { pathParams: downloadThumbnailParams },
   downloadThumbnailHandler
 );
+
+// Log server mode after all tools are registered
+logServerMode();
 
 const transport = new StdioServerTransport();
 

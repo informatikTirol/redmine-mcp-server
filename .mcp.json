@@ -4,7 +4,7 @@
       "type": "stdio",
       "command": "node",
       "args": [
-        "/workspaces/redmine-mcp-server/dist/server.js"
+        "/workspaces/redmine-mcp-server/dist/server.mjs"
       ],
       "env": {
         "REDMINE_URL": "http://redmine:3000",

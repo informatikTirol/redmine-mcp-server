@@ -1,12 +1,18 @@
 {
-  "name": "redmine-mcp-server",
-  "version": "1.0.0",
+  "name": "@onozaty/redmine-mcp-server",
+  "version": "0.1.0",
   "description": "MCP server for Redmine",
   "type": "module",
-  "main": "index.js",
+  "bin": {
+    "redmine-mcp-server": "./dist/server.mjs"
+  },
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "gen": "rm -rf src/__generated__ && orval && node post-generate.js",
-    "build": "pnpm gen && tsdown src/server.ts"
+    "build": "pnpm gen && tsdown",
+    "prepublishOnly": "pnpm run build"
   },
   "repository": {
     "type": "git",
@@ -14,6 +20,7 @@
   },
   "keywords": [
     "mcp",
+    "modelcontextprotocol",
     "redmine"
   ],
   "author": "onozaty",
