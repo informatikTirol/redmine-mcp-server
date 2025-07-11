@@ -1,25 +1,24 @@
 /**
- * HTTP client for file download from Redmine
+ * HTTP client for thumbnail download from Redmine
  */
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { getDownloadAttachmentFileUrl } from "../__generated__/http-client";
+import { getDownloadThumbnailUrl } from "../__generated__/http-client";
 import { customFetch } from "../api/custom-fetch";
-import { DownloadFileResponse } from "../types/attachment";
+import { DownloadLocalFileResponse } from "../types/attachment";
 
-export async function downloadFileFromRedmine(
+export async function downloadThumbnailToLocalFromRedmine(
   attachmentId: number,
-  filename: string,
   outputDir?: string
-): Promise<DownloadFileResponse> {
-  // Download the actual file using the generated URL function
-  const downloadUrl = getDownloadAttachmentFileUrl(attachmentId, filename);
+): Promise<DownloadLocalFileResponse> {
+  // Download the thumbnail using the generated URL function
+  const downloadUrl = getDownloadThumbnailUrl(attachmentId);
   const downloadResponse = await customFetch(downloadUrl);
 
   if (!downloadResponse.ok) {
     throw new Error(
-      `Failed to download file: ${downloadResponse.status} ${downloadResponse.statusText}`
+      `Failed to download thumbnail: ${downloadResponse.status} ${downloadResponse.statusText}`
     );
   }
 
@@ -31,18 +30,17 @@ export async function downloadFileFromRedmine(
     fs.mkdirSync(actualOutputDir, { recursive: true });
   }
 
-  // Create unique filename to avoid conflicts
+  // Create unique filename for thumbnail
   const timestamp = Date.now();
-  const ext = path.extname(filename);
-  const uniqueFilename = `redmine_attachment_${attachmentId}_${timestamp}${ext}`;
+  const uniqueFilename = `redmine_thumbnail_${attachmentId}_${timestamp}.png`;
   const outputPath = path.join(actualOutputDir, uniqueFilename);
 
-  // Write file to disk
+  // Write thumbnail to disk
   const fileBuffer = await downloadResponse.arrayBuffer();
   fs.writeFileSync(outputPath, Buffer.from(fileBuffer));
 
   return {
     filePath: outputPath,
-    filename: filename,
+    filename: uniqueFilename,
   };
 }

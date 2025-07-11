@@ -1,7 +1,7 @@
 /**
  * MCP handler for file upload
  */
-import { uploadFileToRedmine } from "./upload-client";
+import { uploadLocalFileToRedmine } from "./upload-local-file-client";
 
 export interface UploadFileArgs {
   pathParams: {
@@ -11,7 +11,7 @@ export interface UploadFileArgs {
 }
 
 export const uploadFileHandler = async (args: UploadFileArgs) => {
-  const result = await uploadFileToRedmine(
+  const result = await uploadLocalFileToRedmine(
     args.pathParams.filePath,
     args.pathParams.filename
   );

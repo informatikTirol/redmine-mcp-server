@@ -1,18 +1,20 @@
 /**
- * MCP handler for thumbnail download
+ * MCP handler for file download
  */
-import { downloadThumbnailFromRedmine } from "./thumbnail-client";
+import { downloadFileToLocalFromRedmine } from "./download-to-local-file-client";
 
-export interface DownloadThumbnailArgs {
+export interface DownloadFileArgs {
   pathParams: {
     attachmentId: number;
+    filename: string;
     outputDir?: string;
   };
 }
 
-export const downloadThumbnailHandler = async (args: DownloadThumbnailArgs) => {
-  const result = await downloadThumbnailFromRedmine(
+export const downloadFileHandler = async (args: DownloadFileArgs) => {
+  const result = await downloadFileToLocalFromRedmine(
     args.pathParams.attachmentId,
+    args.pathParams.filename,
     args.pathParams.outputDir
   );
 
@@ -25,7 +27,7 @@ export const downloadThumbnailHandler = async (args: DownloadThumbnailArgs) => {
             success: true,
             filePath: result.filePath,
             filename: result.filename,
-            message: `Thumbnail downloaded successfully to: ${result.filePath}`,
+            message: `File downloaded successfully to: ${result.filePath}`,
           },
           null,
           2

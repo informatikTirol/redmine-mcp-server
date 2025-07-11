@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 const HTTP_CLIENT_FILE = 'src/__generated__/http-client.ts';
+const GENERATED_SERVER_FILE = 'src/__generated__/server.ts';
 const CUSTOM_FETCH_IMPORT = 'import { customFetch as fetch } from "../api/custom-fetch";';
 
 function addCustomFetchImport() {
@@ -33,4 +34,12 @@ function addCustomFetchImport() {
   console.log('Added customFetch import to http-client.ts');
 }
 
+function removeGeneratedServer() {
+  if (fs.existsSync(GENERATED_SERVER_FILE)) {
+    fs.unlinkSync(GENERATED_SERVER_FILE);
+    console.log('Removed generated server.ts file');
+  }
+}
+
 addCustomFetchImport();
+removeGeneratedServer();

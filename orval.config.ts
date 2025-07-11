@@ -4,10 +4,6 @@ export default defineConfig({
   redmine: {
     input: {
       target: "./redmine-openapi.yaml",
-      filters: {
-        mode: "exclude",
-        tags: ["OrvalIgnore"],
-      },
     },
     output: {
       mode: "single",
