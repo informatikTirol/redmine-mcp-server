@@ -3,6 +3,7 @@
  */
 import fs from "fs";
 import path from "path";
+import { getUploadAttachmentFileUrl } from "../__generated__/http-client";
 import { customFetch } from "../api/custom-fetch";
 import { UploadFileResponse } from "../types/attachment";
 
@@ -21,13 +22,7 @@ export async function uploadLocalFileToRedmine(
   // Use provided filename or extract from file path
   const actualFilename = filename || path.basename(filePath);
 
-  const searchParams = new URLSearchParams();
-  if (actualFilename) {
-    searchParams.append("filename", actualFilename);
-  }
-  const query = searchParams.toString();
-
-  const url = "/uploads.json" + (query.length > 0 ? `?${query}` : "");
+  const url = getUploadAttachmentFileUrl("json", { filename: actualFilename });
 
   const response = await customFetch(url, {
     method: "POST",

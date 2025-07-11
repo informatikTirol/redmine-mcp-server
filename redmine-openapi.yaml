@@ -3369,7 +3369,6 @@ paths:
     post:
       tags:
         - Attachments
-        - OrvalIgnore
       externalDocs:
         url: https://www.redmine.org/projects/redmine/wiki/Rest_api#Attaching-files
       summary: Upload attachment file

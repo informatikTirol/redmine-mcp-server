@@ -1,8 +1,9 @@
 /**
  * HTTP client for Base64 content upload to Redmine
  */
+import { getUploadAttachmentFileUrl } from "../__generated__/http-client";
 import { customFetch } from "../api/custom-fetch";
-import { UploadFileResponse, UploadBase64ContentParams } from "../types/attachment";
+import { UploadFileResponse } from "../types/attachment";
 
 export async function uploadBase64ContentToRedmine(
   content: string,
@@ -25,12 +26,7 @@ export async function uploadBase64ContentToRedmine(
     throw new Error(`Invalid Base64 content: ${error}`);
   }
 
-  // Build query parameters
-  const searchParams = new URLSearchParams();
-  searchParams.append("filename", filename);
-  const query = searchParams.toString();
-
-  const url = "/uploads.json" + (query.length > 0 ? `?${query}` : "");
+  const url = getUploadAttachmentFileUrl("json", { filename });
 
   const response = await customFetch(url, {
     method: "POST",
