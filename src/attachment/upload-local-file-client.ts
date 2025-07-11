@@ -6,7 +6,7 @@ import path from "path";
 import { customFetch } from "../api/custom-fetch";
 import { UploadFileResponse } from "../types/attachment";
 
-export async function uploadFileToRedmine(
+export async function uploadLocalFileToRedmine(
   filePath: string,
   filename?: string
 ): Promise<UploadFileResponse> {

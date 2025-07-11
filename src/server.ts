@@ -244,13 +244,23 @@ import {
 
 // Import custom attachment functionality
 import { ZodRawShape } from "zod";
-import { downloadFileHandler } from "./attachment/download-handler.js";
-import { downloadThumbnailHandler } from "./attachment/thumbnail-handler.js";
-import { uploadFileHandler } from "./attachment/upload-handler.js";
+// Local file based handlers (existing)
+import { downloadFileHandler } from "./attachment/download-to-local-file-handler.js";
+import { downloadThumbnailHandler } from "./attachment/thumbnail-to-local-file-handler.js";
+import { uploadFileHandler } from "./attachment/upload-local-file-handler.js";
+// Base64 content based handlers (new)
+import { downloadAsBase64ContentHandler } from "./attachment/download-as-base64-content-handler.js";
+import { downloadThumbnailAsBase64ContentHandler } from "./attachment/thumbnail-as-base64-content-handler.js";
+import { uploadBase64ContentHandler } from "./attachment/upload-base64-content-handler.js";
 import {
-  downloadFileParams,
-  downloadThumbnailParams,
-  uploadFileParams,
+  // Local file based schemas (existing)
+  downloadToLocalFileParams,
+  downloadThumbnailToLocalFileParams,
+  uploadLocalFileParams,
+  // Base64 content based schemas (new)
+  downloadAsBase64ContentParams,
+  downloadThumbnailAsBase64ContentParams,
+  uploadBase64ContentParams,
 } from "./schemas/attachment.js";
 
 const server = new McpServer({
@@ -914,28 +924,52 @@ registerTool(
   removeRelatedIssueHandler
 );
 
-// Register custom attachment tools
+// Register custom attachment tools - Local file system based
 registerTool(
-  "uploadAttachmentFile",
-  "Upload attachment file to Redmine and get upload token",
+  "uploadAttachmentFromLocalFile",
+  "Upload attachment file from local file system to Redmine and get upload token",
   ToolType.WRITE,
-  { pathParams: uploadFileParams },
+  { pathParams: uploadLocalFileParams },
   uploadFileHandler
 );
 registerTool(
-  "downloadAttachmentFile",
-  "Download attachment file from Redmine to local file",
+  "downloadAttachmentToLocalFile",
+  "Download attachment file from Redmine to local file system",
   ToolType.READ_ONLY,
-  { pathParams: downloadFileParams },
+  { pathParams: downloadToLocalFileParams },
   downloadFileHandler
 );
 registerTool(
-  "downloadThumbnail",
-  "Download thumbnail from Redmine to local file",
+  "downloadThumbnailToLocalFile",
+  "Download thumbnail from Redmine to local file system",
   ToolType.READ_ONLY,
-  { pathParams: downloadThumbnailParams },
+  { pathParams: downloadThumbnailToLocalFileParams },
   downloadThumbnailHandler
 );
+
+// Register custom attachment tools - Base64 content based
+registerTool(
+  "uploadAttachmentFromBase64Content",
+  "Upload attachment file from Base64 encoded content to Redmine and get upload token",
+  ToolType.WRITE,
+  { pathParams: uploadBase64ContentParams },
+  uploadBase64ContentHandler
+);
+registerTool(
+  "downloadAttachmentAsBase64Content",
+  "Download attachment file from Redmine as Base64 encoded content",
+  ToolType.READ_ONLY,
+  { pathParams: downloadAsBase64ContentParams },
+  downloadAsBase64ContentHandler
+);
+registerTool(
+  "downloadThumbnailAsBase64Content",
+  "Download thumbnail from Redmine as Base64 encoded content",
+  ToolType.READ_ONLY,
+  { pathParams: downloadThumbnailAsBase64ContentParams },
+  downloadThumbnailAsBase64ContentHandler
+);
+
 
 // Log server mode after all tools are registered
 logServerMode();
