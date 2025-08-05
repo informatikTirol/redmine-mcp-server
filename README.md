@@ -139,6 +139,20 @@ User configuration (`settings.json`):
 }
 ```
 
+## Demonstration
+
+Here are example videos showing how to use the Redmine MCP server with Claude Desktop:
+
+### Creating an Issue
+
+https://github.com/onozaty/redmine-mcp-server/blob/main/screen-captures/create-issue.mp4
+
+*This demonstration also uses the [Playwright MCP](https://github.com/microsoft/playwright-mcp) for browser automation alongside the Redmine MCP server.*
+
+### Getting Issue Information
+
+https://github.com/onozaty/redmine-mcp-server/blob/main/screen-captures/get-issue.mp4
+
 ## Available Features
 
 This MCP server comprehensively supports the functions provided by [Redmine's REST API](https://www.redmine.org/projects/redmine/wiki/rest_api):
