@@ -6,6 +6,20 @@ Model Context Protocol (MCP) server for Redmine that provides comprehensive acce
 
 This project is an MCP server that comprehensively covers Redmine's [REST API](https://www.redmine.org/projects/redmine/wiki/rest_api). It allows you to operate Redmine from MCP clients (such as Claude Desktop).
 
+## Demonstration
+
+Here are example videos showing how to use the Redmine MCP server with Claude Desktop:
+
+### Creating an Issue
+
+https://github.com/user-attachments/assets/075fb079-104c-404d-91f5-755b3882853b
+
+*This demonstration also uses the [Playwright MCP](https://github.com/microsoft/playwright-mcp) for browser automation alongside the Redmine MCP server.*
+
+### Getting Issue Information
+
+https://github.com/user-attachments/assets/8f551082-6982-4513-8fe7-b0f111be982d
+
 ## Features
 
 - 📋 **Comprehensive API Coverage**: Supports all functions available in Redmine's REST API
@@ -138,20 +152,6 @@ User configuration (`settings.json`):
   }
 }
 ```
-
-## Demonstration
-
-Here are example videos showing how to use the Redmine MCP server with Claude Desktop:
-
-### Creating an Issue
-
-https://github.com/onozaty/redmine-mcp-server/blob/main/screen-captures/create-issue.mp4
-
-*This demonstration also uses the [Playwright MCP](https://github.com/microsoft/playwright-mcp) for browser automation alongside the Redmine MCP server.*
-
-### Getting Issue Information
-
-https://github.com/onozaty/redmine-mcp-server/blob/main/screen-captures/get-issue.mp4
 
 ## Available Features
 
