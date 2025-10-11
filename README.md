@@ -6,6 +6,39 @@ Model Context Protocol (MCP) server for Redmine that provides comprehensive acce
 
 This project is an MCP server that comprehensively covers Redmine's [REST API](https://www.redmine.org/projects/redmine/wiki/rest_api). It allows you to operate Redmine from MCP clients (such as Claude Desktop).
 
+## Currently Active Tools
+
+This MCP server currently has the following tools **enabled** in `src/server.ts`:
+
+### Read-Only Tools
+- **getIssues** - List issues
+- **getIssue** - Show issue details
+- **getTimeEntries** - List time entries
+- **getVersionsByProject** - List versions by project
+- **search** - Cross-search functionality
+
+### Write Tools
+- **createIssue** - Create new issue
+- **updateIssue** - Update existing issue
+
+### Disabled Tools
+
+Most other Redmine API endpoints are currently **disabled** (commented out) in the implementation:
+- Projects management (list, create, update, delete, archive, memberships)
+- Users management (list, create, update, delete, current user)
+- Time entries (create, update, delete, activities)
+- Wiki pages (list, show, create/update, delete, versions)
+- News (list, create, update, delete)
+- Watchers (add, remove)
+- Issue relations (list, create, delete)
+- Versions (create, show, update, delete)
+- Attachments (show, upload, download, thumbnails, update, delete)
+- Issue statuses, trackers, categories, priorities
+- Queries, roles, groups, custom fields
+- Files, my account, journals
+
+To enable additional tools, uncomment the relevant `registerTool()` calls in `src/server.ts`.
+
 ## Demonstration
 
 Here are example videos showing how to use the Redmine MCP server with Claude Desktop:
