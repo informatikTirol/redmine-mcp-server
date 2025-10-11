@@ -339,6 +339,8 @@ registerTool(
   { pathParams: updateIssueParams, bodyParams: updateIssueBody },
   updateIssueHandler
 );
+// Delete Issue - DISABLED
+/*
 registerTool(
   "deleteIssue",
   "Delete issue",
@@ -346,6 +348,9 @@ registerTool(
   { pathParams: deleteIssueParams },
   deleteIssueHandler
 );
+*/
+// Watcher - DISABLED
+/*
 registerTool(
   "addWatcher",
   "Add watcher",
@@ -360,6 +365,9 @@ registerTool(
   { pathParams: removeWatcherParams },
   removeWatcherHandler
 );
+*/
+// Projects - DISABLED
+/*
 registerTool(
   "getProjects",
   "List projects",
@@ -458,6 +466,10 @@ registerTool(
   { pathParams: reopenProjectParams },
   reopenProjectHandler
 );
+*/
+
+// Users - DISABLED
+/*
 registerTool(
   "getUsers",
   "List users",
@@ -500,6 +512,9 @@ registerTool(
   { pathParams: getCurrentUserParams, queryParams: getCurrentUserQueryParams },
   getCurrentUserHandler
 );
+*/
+
+// Time Entries
 registerTool(
   "getTimeEntries",
   "List time entries",
@@ -507,34 +522,37 @@ registerTool(
   { pathParams: getTimeEntriesParams, queryParams: getTimeEntriesQueryParams },
   getTimeEntriesHandler
 );
-registerTool(
-  "createTimeEntry",
-  "Create time entry",
-  ToolType.WRITE,
-  { pathParams: createTimeEntryParams, bodyParams: createTimeEntryBody },
-  createTimeEntryHandler
-);
-registerTool(
-  "getTimeEntry",
-  "Show time entry",
-  ToolType.READ_ONLY,
-  { pathParams: getTimeEntryParams },
-  getTimeEntryHandler
-);
-registerTool(
-  "updateTimeEntry",
-  "Update time entry",
-  ToolType.WRITE,
-  { pathParams: updateTimeEntryParams, bodyParams: updateTimeEntryBody },
-  updateTimeEntryHandler
-);
-registerTool(
-  "deleteTimeEntry",
-  "Delete time entry",
-  ToolType.WRITE,
-  { pathParams: deleteTimeEntryParams },
-  deleteTimeEntryHandler
-);
+// registerTool(
+//   "createTimeEntry",
+//   "Create time entry",
+//   ToolType.WRITE,
+//   { pathParams: createTimeEntryParams, bodyParams: createTimeEntryBody },
+//   createTimeEntryHandler
+// );
+// registerTool(
+//   "getTimeEntry",
+//   "Show time entry",
+//   ToolType.READ_ONLY,
+//   { pathParams: getTimeEntryParams },
+//   getTimeEntryHandler
+// );
+// registerTool(
+//   "updateTimeEntry",
+//   "Update time entry",
+//   ToolType.WRITE,
+//   { pathParams: updateTimeEntryParams, bodyParams: updateTimeEntryBody },
+//   updateTimeEntryHandler
+// );
+// registerTool(
+//   "deleteTimeEntry",
+//   "Delete time entry",
+//   ToolType.WRITE,
+//   { pathParams: deleteTimeEntryParams },
+//   deleteTimeEntryHandler
+// );
+
+// News - DISABLED
+/*
 registerTool(
   "getNewsList",
   "List news",
@@ -580,6 +598,10 @@ registerTool(
   { pathParams: createNewsParams, bodyParams: createNewsBody },
   createNewsHandler
 );
+*/
+
+// Issue Relations - DISABLED
+/*
 registerTool(
   "getIssueRelations",
   "List issue relations",
@@ -611,6 +633,9 @@ registerTool(
   { pathParams: deleteIssueRelationParams },
   deleteIssueRelationHandler
 );
+*/
+
+
 registerTool(
   "getVersionsByProject",
   "List versions by project",
@@ -621,6 +646,8 @@ registerTool(
   },
   getVersionsByProjectHandler
 );
+// Versions - DISABLED
+/*
 registerTool(
   "createVersion",
   "Create version",
@@ -649,6 +676,10 @@ registerTool(
   { pathParams: deleteVersionParams },
   deleteVersionHandler
 );
+*/
+
+// Wiki Pages - DISABLED
+/*
 registerTool(
   "getWikiPages",
   "List wiki pages",
@@ -687,6 +718,10 @@ registerTool(
   },
   getWikiPageByVersionHandler
 );
+*/
+
+// Queries - DISABLED
+/*
 registerTool(
   "getQueries",
   "List queries",
@@ -694,6 +729,10 @@ registerTool(
   { pathParams: getQueriesParams, queryParams: getQueriesQueryParams },
   getQueriesHandler
 );
+*/
+
+// Attachments - DISABLED
+/*
 registerTool(
   "getAttachment",
   "Show attachment",
@@ -715,6 +754,10 @@ registerTool(
   { pathParams: deleteAttachmentParams },
   deleteAttachmentHandler
 );
+*/
+
+// Issue Statuses - DISABLED
+/*
 registerTool(
   "getIssueStatuses",
   "List issue statuses",
@@ -722,6 +765,10 @@ registerTool(
   { pathParams: getIssueStatusesParams },
   getIssueStatusesHandler
 );
+*/
+
+// Trackers - DISABLED
+/*
 registerTool(
   "getTrackers",
   "List trackers",
@@ -729,6 +776,10 @@ registerTool(
   { pathParams: getTrackersParams },
   getTrackersHandler
 );
+*/
+
+// Issue Categories - DISABLED
+/*
 registerTool(
   "getIssueCategories",
   "List issue categories",
@@ -756,13 +807,15 @@ registerTool(
   { pathParams: getIssuePrioritiesParams },
   getIssuePrioritiesHandler
 );
-registerTool(
-  "getTimeEntryActivities",
-  "List time entry activities",
-  ToolType.READ_ONLY,
-  { pathParams: getTimeEntryActivitiesParams },
-  getTimeEntryActivitiesHandler
-);
+*/
+// registerTool(
+//   "getTimeEntryActivities",
+//   "List time entry activities",
+//   ToolType.READ_ONLY,
+//   { pathParams: getTimeEntryActivitiesParams },
+//   getTimeEntryActivitiesHandler
+// );
+/*
 registerTool(
   "getDocumentCategories",
   "List document categories",
@@ -797,6 +850,10 @@ registerTool(
   },
   deleteIssueCategoryHandler
 );
+*/
+
+// Roles - DISABLED
+/*
 registerTool(
   "getRoles",
   "List roles",
@@ -811,6 +868,10 @@ registerTool(
   { pathParams: getRoleParams },
   getRoleHandler
 );
+*/
+
+// Groups - DISABLED
+/*
 registerTool(
   "getGroups",
   "List groups",
@@ -860,6 +921,10 @@ registerTool(
   { pathParams: removeUserFromGroupParams },
   removeUserFromGroupHandler
 );
+*/
+
+// Custom Fields - DISABLED
+/*
 registerTool(
   "getCustomFields",
   "List custom fields",
@@ -867,6 +932,8 @@ registerTool(
   { pathParams: getCustomFieldsParams },
   getCustomFieldsHandler
 );
+*/
+
 registerTool(
   "search",
   "Search",
@@ -874,6 +941,10 @@ registerTool(
   { pathParams: searchParams, queryParams: searchQueryParams },
   searchHandler
 );
+
+
+// Files - DISABLED
+/*
 registerTool(
   "getFiles",
   "List files",
@@ -888,6 +959,10 @@ registerTool(
   { pathParams: createFileParams, bodyParams: createFileBody },
   createFileHandler
 );
+*/
+
+// My Account - DISABLED
+/*
 registerTool(
   "getMyAccount",
   "Show my account",
@@ -902,6 +977,10 @@ registerTool(
   { pathParams: updateMyAccountParams, bodyParams: updateMyAccountBody },
   updateMyAccountHandler
 );
+*/
+
+// Journal - DISABLED
+/*
 registerTool(
   "updateJournal",
   "Update journal",
@@ -909,6 +988,10 @@ registerTool(
   { pathParams: updateJournalParams, bodyParams: updateJournalBody },
   updateJournalHandler
 );
+*/
+
+// Related Issues - DISABLED
+/*
 registerTool(
   "addRelatedIssue",
   "Add related issue",
@@ -923,7 +1006,10 @@ registerTool(
   { pathParams: removeRelatedIssueParams },
   removeRelatedIssueHandler
 );
+*/
 
+// Custom Attachment Tools - DISABLED
+/*
 // Register custom attachment tools - Local file system based
 registerTool(
   "uploadAttachmentFromLocalFile",
@@ -969,6 +1055,7 @@ registerTool(
   { pathParams: downloadThumbnailAsBase64ContentParams },
   downloadThumbnailAsBase64ContentHandler
 );
+*/
 
 
 // Log server mode after all tools are registered
