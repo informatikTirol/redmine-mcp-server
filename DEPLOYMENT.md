@@ -7,6 +7,7 @@
 1. **NPM Account benötigt**:
    - Falls noch nicht vorhanden: Account auf [npmjs.com](https://www.npmjs.com) erstellen
    - Organisation `@informatik_tirol` auf npm erstellen oder Zugriff erhalten
+   - https://www.npmjs.com/package/@informatik_tirol/redmine-mcp-server
 
 2. **NPM Login**:
    ```bash
