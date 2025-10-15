@@ -22,13 +22,15 @@ This MCP server currently has the following tools **enabled** in `src/server.ts`
 ### Write Tools
 - **createIssue** - Create new issue
 - **updateIssue** - Update existing issue
+- **createTimeEntry** - Create new time entry
+- **updateTimeEntry** - Update existing time entry
 
 ### Disabled Tools
 
 Most other Redmine API endpoints are currently **disabled** (commented out) in the implementation:
 - Projects management (list, create, update, delete, archive, memberships)
 - Users management (list, create, update, delete, current user)
-- Time entries (create, update, delete, activities)
+- Time entries (show individual, delete, activities)
 - Wiki pages (list, show, create/update, delete, versions)
 - News (list, create, update, delete)
 - Watchers (add, remove)

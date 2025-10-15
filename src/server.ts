@@ -522,13 +522,13 @@ registerTool(
   { pathParams: getTimeEntriesParams, queryParams: getTimeEntriesQueryParams },
   getTimeEntriesHandler
 );
-// registerTool(
-//   "createTimeEntry",
-//   "Create time entry",
-//   ToolType.WRITE,
-//   { pathParams: createTimeEntryParams, bodyParams: createTimeEntryBody },
-//   createTimeEntryHandler
-// );
+registerTool(
+  "createTimeEntry",
+  "Create time entry",
+  ToolType.WRITE,
+  { pathParams: createTimeEntryParams, bodyParams: createTimeEntryBody },
+  createTimeEntryHandler
+);
 // registerTool(
 //   "getTimeEntry",
 //   "Show time entry",
@@ -536,13 +536,13 @@ registerTool(
 //   { pathParams: getTimeEntryParams },
 //   getTimeEntryHandler
 // );
-// registerTool(
-//   "updateTimeEntry",
-//   "Update time entry",
-//   ToolType.WRITE,
-//   { pathParams: updateTimeEntryParams, bodyParams: updateTimeEntryBody },
-//   updateTimeEntryHandler
-// );
+registerTool(
+  "updateTimeEntry",
+  "Update time entry",
+  ToolType.WRITE,
+  { pathParams: updateTimeEntryParams, bodyParams: updateTimeEntryBody },
+  updateTimeEntryHandler
+);
 // registerTool(
 //   "deleteTimeEntry",
 //   "Delete time entry",
