@@ -5,7 +5,7 @@
 ### Core Configuration
 
 **Required:**
-- `REDMINE_URL` - Base URL of your Redmine instance (e.g., `https://redmine.example.com`)
+- `REDMINE_URL` - Base URL of your Redmine instance (e.g., `https://devops.geobility.systems`)
 - `REDMINE_API_KEY` - Your Redmine API key (found in My Account → API access key)
 
 **Optional:**
@@ -112,7 +112,7 @@ These features cannot be disabled as they are core to Redmine:
 
 ```bash
 # .env
-REDMINE_URL=https://redmine.example.com
+REDMINE_URL=https://devops.geobility.systems
 REDMINE_API_KEY=your_api_key_here
 
 # Disable all optional features
@@ -126,7 +126,7 @@ REDMINE_MCP_DISABLE_VERSIONS=true
 
 ```bash
 # .env
-REDMINE_URL=https://redmine.example.com
+REDMINE_URL=https://devops.geobility.systems
 REDMINE_API_KEY=your_api_key_here
 
 # All features enabled by default (no DISABLE flags needed)
@@ -136,7 +136,7 @@ REDMINE_API_KEY=your_api_key_here
 
 ```bash
 # .env
-REDMINE_URL=https://redmine.example.com
+REDMINE_URL=https://devops.geobility.systems
 REDMINE_API_KEY=your_api_key_here
 REDMINE_MCP_READ_ONLY=true  # Only READ_ONLY tools available
 ```
@@ -145,7 +145,7 @@ REDMINE_MCP_READ_ONLY=true  # Only READ_ONLY tools available
 
 ```bash
 # .env
-REDMINE_URL=https://redmine.example.com
+REDMINE_URL=https://devops.geobility.systems
 REDMINE_API_KEY=your_api_key_here
 
 # Only checklist plugin enabled, disable others

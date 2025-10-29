@@ -5,7 +5,7 @@ Development and testing command for the local Redmine MCP server.
 ## Context
 
 **Local MCP Server:** `@informatik_tirol/redmine-mcp-server`
-**Redmine Instance:** https://zp.informatik.tirol
+**Redmine Instance:** https://devops.geobility.systems
 **Test Ticket (FIXED for updates):** #18830
 **Test Project:** GBS SOP (ID: 264)
 **Plugins Installed:** redmine_checklists (for checklist testing)
@@ -64,7 +64,7 @@ pnpm debug
 ```
 
 **Environment Variables (from .env):**
-- REDMINE_URL=https://zp.informatik.tirol
+- REDMINE_URL=https://devops.geobility.systems
 - REDMINE_API_KEY=76bc3d475f33e7e82030e6afed8aba7ed8e2fbb5
 
 ## Command Arguments
@@ -105,7 +105,7 @@ User: "/dev:mcp create [description]"
        "issue": {
          "project_id": 264,
          "subject": "MCP Dev Test - [description] - YYYY-MM-DD HH:mm",
-         "description": "[User description]\n\n## Test Details\n- Created: [timestamp]\n- Test Type: [description]\n- Server: Local Development (tsx watch)\n\n## Environment\n- API: https://zp.informatik.tirol\n- Config: .env loaded\n- Mode: Development",
+         "description": "[User description]\n\n## Test Details\n- Created: [timestamp]\n- Test Type: [description]\n- Server: Local Development (tsx watch)\n\n## Environment\n- API: https://devops.geobility.systems\n- Config: .env loaded\n- Mode: Development",
          "tracker_id": 3,
          "status_id": 1,
          "priority_id": 2,
@@ -183,7 +183,7 @@ Default: ticket_id = 18830
    - Details: Tracker, Priority, Version, Assigned To
    - Dates: Created, Updated, Start, Due
    - Content: Description, Latest Journal Notes
-   - URL: https://zp.informatik.tirol/issues/18830
+   - URL: https://devops.geobility.systems/issues/18830
 
 ### 4. SEARCH - Find Tickets
 
@@ -286,7 +286,7 @@ User: "/dev:mcp status"
    - Project: GBS SOP (264)
    - Version: RC Amisola / ORS 1 (715)
    - Server: Local Development
-   - URL: https://zp.informatik.tirol
+   - URL: https://devops.geobility.systems
 3. Show recent activity (get ticket #18830)
 4. List available actions
 
@@ -459,7 +459,7 @@ Remove checklist items using `_destroy`:
 /dev:mcp checklist create-with
 
 # 2. Verify in Redmine UI
-# Open: https://zp.informatik.tirol/issues/[new-ticket-id]
+# Open: https://devops.geobility.systems/issues/[new-ticket-id]
 # Check: Checklists are visible and correct
 
 # 3. Add more checklists to #18830
@@ -599,7 +599,7 @@ pnpm dev
 # - Try without required subject field
 
 # 7. Verify in Redmine UI
-# - https://zp.informatik.tirol/issues/18830
+# - https://devops.geobility.systems/issues/18830
 # - Check checklists tab
 # - Verify journal entries
 ```
@@ -651,7 +651,7 @@ If operations fail:
 ### Test Ticket #18830
 
 This ticket is the FIXED test ticket for all update operations:
-- URL: https://zp.informatik.tirol/issues/18830
+- URL: https://devops.geobility.systems/issues/18830
 - Subject: "MCP Server Development Test Ticket"
 - Project: GBS SOP (264)
 - Purpose: Central test ticket for update/time entry testing
@@ -663,7 +663,7 @@ This ticket is the FIXED test ticket for all update operations:
 This command uses the **LOCAL MCP server** (`mcp__redmine-local__*` tools).
 - Server must be running (`pnpm dev`)
 - Uses .env configuration
-- Points to: https://zp.informatik.tirol
+- Points to: https://devops.geobility.systems
 - NOT the production DevOps server
 
 ## Quick Reference
@@ -688,8 +688,8 @@ F5 in VS Code              # Debug mode
 /dev:mcp checklist delete       # Remove checklist items
 
 # URLs
-Test Ticket: https://zp.informatik.tirol/issues/18830
-Redmine: https://zp.informatik.tirol
+Test Ticket: https://devops.geobility.systems/issues/18830
+Redmine: https://devops.geobility.systems
 ```
 
 ## Execution Instructions

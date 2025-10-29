@@ -45,7 +45,7 @@ Commands are available in Claude Code conversations:
 ## Test Ticket
 
 **Fixed Test Ticket for Updates:** #18830
-- **URL:** https://zp.informatik.tirol/issues/18830
+- **URL:** https://devops.geobility.systems/issues/18830
 - **Project:** GBS SOP (ID: 264)
 - **Purpose:** Central test ticket for update operations
 - **Status:** Do NOT delete this ticket!
@@ -67,7 +67,7 @@ pnpm debug
 
 **Configuration:**
 - Environment: `.env` file (auto-loaded in development)
-- Redmine URL: https://zp.informatik.tirol
+- Redmine URL: https://devops.geobility.systems
 - API Key: From `.env` file
 
 ## Adding New Commands
