@@ -286,6 +286,42 @@ When adding new features:
 5. Debug with VS Code if needed
 6. Build and test production bundle
 
+## Claude Code Commands
+
+This project includes custom Claude Code commands for development and testing.
+
+### `/dev:mcp` - Development Command
+
+Comprehensive command for testing the local MCP server:
+
+```bash
+# Check server status
+/dev:mcp status
+
+# Create new test ticket
+/dev:mcp create "Testing new feature"
+
+# Update fixed test ticket #18830
+/dev:mcp update "Testing update functionality"
+
+# Get ticket details
+/dev:mcp get
+
+# Log time entry
+/dev:mcp time 1.5 "Development work"
+
+# Search tickets
+/dev:mcp search "query"
+```
+
+**Key Features:**
+- Fixed test ticket (#18830) for consistent update testing
+- Automatic timestamp tracking
+- Server status monitoring
+- Time entry management
+
+**Documentation:** See [`.claude/commands/dev-mcp.md`](.claude/commands/dev-mcp.md)
+
 ## Additional Resources
 
 - [MCP Documentation](https://modelcontextprotocol.io/)

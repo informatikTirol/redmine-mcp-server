@@ -349,18 +349,19 @@ registerTool(
   deleteIssueHandler
 );
 */
-// Watcher - DISABLED
-/*
+// Watcher
 registerTool(
   "addWatcher",
-  "Add watcher",
+  "Add watcher to issue",
   ToolType.WRITE,
   { pathParams: addWatcherParams, bodyParams: addWatcherBody },
   addWatcherHandler
 );
+// removeWatcher - DISABLED (not needed)
+/*
 registerTool(
   "removeWatcher",
-  "Remove watcher",
+  "Remove watcher from issue",
   ToolType.WRITE,
   { pathParams: removeWatcherParams },
   removeWatcherHandler
@@ -600,8 +601,7 @@ registerTool(
 );
 */
 
-// Issue Relations - DISABLED
-/*
+// Issue Relations
 registerTool(
   "getIssueRelations",
   "List issue relations",
@@ -619,6 +619,9 @@ registerTool(
   },
   createIssueRelationHandler
 );
+// getIssueRelation - DISABLED (not needed, getIssueRelations is sufficient)
+// deleteIssueRelation - DISABLED (not needed)
+/*
 registerTool(
   "getIssueRelation",
   "Show issue relation",
