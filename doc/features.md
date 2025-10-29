@@ -13,13 +13,11 @@ These features are always available and cannot be disabled:
 - `createIssue` - Create new issue
 - `getIssue` - Get issue details
 - `updateIssue` - Update issue
-- `addWatcher` - Add user as watcher
 
 **Capabilities:**
 - Full CRUD operations on issues
 - Advanced filtering and search
 - Custom fields support
-- Watchers management
 - Nested attributes for checklists (if plugin installed)
 
 ### Projects
@@ -238,6 +236,21 @@ REDMINE_MCP_DISABLE_TIME_ENTRIES=true  # Disable
 **Configuration:**
 ```bash
 REDMINE_MCP_DISABLE_VERSIONS=true  # Disable
+```
+
+### Watchers
+
+**Available Tools:**
+- `addWatcher` - Add user as watcher to issue
+
+**Capabilities:**
+- Subscribe users to issue notifications
+- Add observers to specific issues
+- Manage notification recipients
+
+**Configuration:**
+```bash
+REDMINE_MCP_DISABLE_WATCHERS=true  # Disable
 ```
 
 ## Disabled Features

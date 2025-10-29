@@ -31,6 +31,9 @@ REDMINE_MCP_DISABLE_TIME_ENTRIES=true
 
 # Disable version tools
 REDMINE_MCP_DISABLE_VERSIONS=true
+
+# Disable watcher tools
+REDMINE_MCP_DISABLE_WATCHERS=true
 ```
 
 ## Available Features
@@ -89,6 +92,18 @@ REDMINE_MCP_DISABLE_VERSIONS=true
 
 **Disable:** `REDMINE_MCP_DISABLE_VERSIONS=true`
 
+### Watchers
+
+**Tools:**
+- `addWatcher` - Add user as watcher to issue
+
+**Use Cases:**
+- Subscribe users to issue notifications
+- Assign observers to issues
+- Manage notification recipients
+
+**Disable:** `REDMINE_MCP_DISABLE_WATCHERS=true`
+
 ## Core Features (Always Active)
 
 These features cannot be disabled as they are core to Redmine:
@@ -120,6 +135,7 @@ REDMINE_MCP_DISABLE_CHECKLISTS=true
 REDMINE_MCP_DISABLE_RELATIONS=true
 REDMINE_MCP_DISABLE_TIME_ENTRIES=true
 REDMINE_MCP_DISABLE_VERSIONS=true
+REDMINE_MCP_DISABLE_WATCHERS=true
 ```
 
 ### Full Setup (All Features)
@@ -152,6 +168,7 @@ REDMINE_API_KEY=your_api_key_here
 REDMINE_MCP_DISABLE_RELATIONS=true
 REDMINE_MCP_DISABLE_TIME_ENTRIES=true
 REDMINE_MCP_DISABLE_VERSIONS=true
+REDMINE_MCP_DISABLE_WATCHERS=true
 ```
 
 ## Tool Classification

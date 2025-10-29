@@ -361,14 +361,17 @@ registerTool(
   deleteIssueHandler
 );
 */
+
 // Watcher
-registerTool(
-  "addWatcher",
-  "Add watcher to issue",
-  ToolType.WRITE,
-  { pathParams: addWatcherParams, bodyParams: addWatcherBody },
-  addWatcherHandler
-);
+if (config.features.watchers) {
+  registerTool(
+    "addWatcher",
+    "Add watcher to issue",
+    ToolType.WRITE,
+    { pathParams: addWatcherParams, bodyParams: addWatcherBody },
+    addWatcherHandler
+  );
+}
 // removeWatcher - DISABLED (not needed)
 /*
 registerTool(

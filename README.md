@@ -81,7 +81,6 @@ This MCP server provides comprehensive access to Redmine's REST API with the fol
 - ✅ **createIssue** - Create new issue
 - ✅ **getIssue** - Show issue details
 - ✅ **updateIssue** - Update existing issue
-- ✅ **addWatcher** - Add user as watcher to issue
 
 #### Search
 - ✅ **search** - Global search across Redmine
@@ -118,6 +117,11 @@ Disable with: `REDMINE_MCP_DISABLE_CHECKLISTS=true`
 - ✅ **getVersionsByProject** - List project versions/milestones
 
 Disable with: `REDMINE_MCP_DISABLE_VERSIONS=true`
+
+#### Watchers
+- ✅ **addWatcher** - Add user as watcher to issue
+
+Disable with: `REDMINE_MCP_DISABLE_WATCHERS=true`
 
 ### Disabled Features
 
@@ -272,6 +276,7 @@ claude mcp add -s user redmine \
   -e REDMINE_MCP_DISABLE_RELATIONS=true \
   -e REDMINE_MCP_DISABLE_TIME_ENTRIES=true \
   -e REDMINE_MCP_DISABLE_VERSIONS=true \
+  -e REDMINE_MCP_DISABLE_WATCHERS=true \
   -- npx -y @informatik_tirol/redmine-mcp-server
 
 # Checklists only (with plugin support)
@@ -281,6 +286,7 @@ claude mcp add -s user redmine \
   -e REDMINE_MCP_DISABLE_RELATIONS=true \
   -e REDMINE_MCP_DISABLE_TIME_ENTRIES=true \
   -e REDMINE_MCP_DISABLE_VERSIONS=true \
+  -e REDMINE_MCP_DISABLE_WATCHERS=true \
   -- npx -y @informatik_tirol/redmine-mcp-server
 
 # Time tracking focus
@@ -290,6 +296,7 @@ claude mcp add -s user redmine \
   -e REDMINE_MCP_DISABLE_CHECKLISTS=true \
   -e REDMINE_MCP_DISABLE_RELATIONS=true \
   -e REDMINE_MCP_DISABLE_VERSIONS=true \
+  -e REDMINE_MCP_DISABLE_WATCHERS=true \
   -- npx -y @informatik_tirol/redmine-mcp-server
 ```
 
@@ -298,6 +305,7 @@ claude mcp add -s user redmine \
 - `REDMINE_MCP_DISABLE_RELATIONS=true` - Disable issue relations tools
 - `REDMINE_MCP_DISABLE_TIME_ENTRIES=true` - Disable time entry tools
 - `REDMINE_MCP_DISABLE_VERSIONS=true` - Disable version/milestone tools
+- `REDMINE_MCP_DISABLE_WATCHERS=true` - Disable watcher tools
 
 See [doc/configuration.md](doc/configuration.md) for complete configuration options.
 

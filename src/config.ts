@@ -21,6 +21,8 @@ export interface FeatureFlags {
   timeEntries: boolean;
   /** Project Versions */
   versions: boolean;
+  /** Watchers */
+  watchers: boolean;
 }
 
 export interface ServerConfig {
@@ -39,6 +41,7 @@ export interface ServerConfig {
  * - REDMINE_MCP_DISABLE_RELATIONS=true   - Disable issue relations tools
  * - REDMINE_MCP_DISABLE_TIME_ENTRIES=true - Disable time entry tools
  * - REDMINE_MCP_DISABLE_VERSIONS=true    - Disable version tools
+ * - REDMINE_MCP_DISABLE_WATCHERS=true    - Disable watcher tools
  */
 const loadFeatureFlags = (): FeatureFlags => {
   return {
@@ -46,6 +49,7 @@ const loadFeatureFlags = (): FeatureFlags => {
     relations: process.env.REDMINE_MCP_DISABLE_RELATIONS !== "true",
     timeEntries: process.env.REDMINE_MCP_DISABLE_TIME_ENTRIES !== "true",
     versions: process.env.REDMINE_MCP_DISABLE_VERSIONS !== "true",
+    watchers: process.env.REDMINE_MCP_DISABLE_WATCHERS !== "true",
   };
 };
 
