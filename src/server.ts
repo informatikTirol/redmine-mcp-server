@@ -26,6 +26,7 @@ import {
   addWatcherHandler,
   archiveProjectHandler,
   closeProjectHandler,
+  createChecklistHandler,
   createFileHandler,
   createGroupHandler,
   createIssueCategoryHandler,
@@ -38,6 +39,7 @@ import {
   createUserHandler,
   createVersionHandler,
   deleteAttachmentHandler,
+  deleteChecklistHandler,
   deleteGroupHandler,
   deleteIssueCategoryHandler,
   deleteIssueHandler,
@@ -50,6 +52,8 @@ import {
   deleteVersionHandler,
   deleteWikiPageHandler,
   getAttachmentHandler,
+  getChecklistHandler,
+  getChecklistsByIssueHandler,
   getCurrentUserHandler,
   getCustomFieldsHandler,
   getDocumentCategoriesHandler,
@@ -93,6 +97,7 @@ import {
   searchHandler,
   unarchiveProjectHandler,
   updateAttachmentHandler,
+  updateChecklistHandler,
   updateGroupHandler,
   updateIssueCategoryHandler,
   updateIssueHandler,
@@ -117,6 +122,8 @@ import {
   addWatcherParams,
   archiveProjectParams,
   closeProjectParams,
+  createChecklistBody,
+  createChecklistParams,
   createFileBody,
   createFileParams,
   createGroupBody,
@@ -140,6 +147,7 @@ import {
   createVersionBody,
   createVersionParams,
   deleteAttachmentParams,
+  deleteChecklistParams,
   deleteGroupParams,
   deleteIssueCategoryParams,
   deleteIssueCategoryQueryParams,
@@ -153,6 +161,8 @@ import {
   deleteVersionParams,
   deleteWikiPageParams,
   getAttachmentParams,
+  getChecklistParams,
+  getChecklistsByIssueParams,
   getCurrentUserParams,
   getCurrentUserQueryParams,
   getCustomFieldsParams,
@@ -216,6 +226,8 @@ import {
   unarchiveProjectParams,
   updateAttachmentBody,
   updateAttachmentParams,
+  updateChecklistBody,
+  updateChecklistParams,
   updateGroupBody,
   updateGroupParams,
   updateIssueBody,
@@ -638,6 +650,42 @@ registerTool(
 );
 */
 
+// Checklists
+registerTool(
+  "getChecklistsByIssue",
+  "List checklists for issue",
+  ToolType.READ_ONLY,
+  { pathParams: getChecklistsByIssueParams },
+  getChecklistsByIssueHandler
+);
+registerTool(
+  "createChecklist",
+  "Create checklist item",
+  ToolType.WRITE,
+  { pathParams: createChecklistParams, bodyParams: createChecklistBody },
+  createChecklistHandler
+);
+registerTool(
+  "getChecklist",
+  "Show checklist item",
+  ToolType.READ_ONLY,
+  { pathParams: getChecklistParams },
+  getChecklistHandler
+);
+registerTool(
+  "updateChecklist",
+  "Update checklist item",
+  ToolType.WRITE,
+  { pathParams: updateChecklistParams, bodyParams: updateChecklistBody },
+  updateChecklistHandler
+);
+registerTool(
+  "deleteChecklist",
+  "Delete checklist item",
+  ToolType.WRITE,
+  { pathParams: deleteChecklistParams },
+  deleteChecklistHandler
+);
 
 registerTool(
   "getVersionsByProject",

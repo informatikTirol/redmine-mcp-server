@@ -8,6 +8,7 @@ Development and testing command for the local Redmine MCP server.
 **Redmine Instance:** https://zp.informatik.tirol
 **Test Ticket (FIXED for updates):** #18830
 **Test Project:** GBS SOP (ID: 264)
+**Plugins Installed:** redmine_checklists (for checklist testing)
 
 ## Configuration
 
@@ -81,6 +82,7 @@ Parse the command arguments to determine the action:
 6. **list-time** - List time entries for test ticket
 7. **versions** - List project versions
 8. **status** - Check server status and configuration
+9. **checklist** - Test checklist plugin functionality (requires redmine_checklists)
 
 ## Action Implementations
 
@@ -288,6 +290,237 @@ User: "/dev:mcp status"
 3. Show recent activity (get ticket #18830)
 4. List available actions
 
+### 9. CHECKLIST - Test Checklist Plugin
+
+**IMPORTANT:** Requires redmine_checklists plugin installed on Redmine instance.
+
+```
+User: "/dev:mcp checklist [test-type]"
+```
+
+**Test Types:**
+- **create-with** - Create new ticket with checklists
+- **add** - Add checklists to existing ticket #18830
+- **update** - Toggle/modify checklist items
+- **delete** - Remove checklist items
+- **all** - Run all checklist tests
+
+#### Test Case 1: CREATE WITH CHECKLISTS
+
+Create a new ticket with initial checklist items:
+
+```json
+{
+  "pathParams": {"format": "json"},
+  "bodyParams": {
+    "issue": {
+      "project_id": 264,
+      "subject": "MCP Checklist Test - Create - [timestamp]",
+      "tracker_id": 3,
+      "status_id": 1,
+      "priority_id": 2,
+      "description": "Testing checklist creation via MCP\n\n## Test Checklist\nThese items should appear as checklists:",
+      "checklists_attributes": [
+        {
+          "subject": "First checklist item",
+          "is_done": false,
+          "position": 1
+        },
+        {
+          "subject": "Second item (pre-checked)",
+          "is_done": true,
+          "position": 2
+        },
+        {
+          "subject": "Documentation Section",
+          "is_section": true,
+          "position": 3
+        },
+        {
+          "subject": "Write docs",
+          "is_done": false,
+          "position": 4
+        }
+      ]
+    }
+  }
+}
+```
+
+**Expected Result:**
+- New ticket created
+- 4 checklist items visible
+- Item 2 is checked
+- Item 3 is a section header
+
+#### Test Case 2: ADD CHECKLISTS TO EXISTING TICKET
+
+Add new checklist items to ticket #18830:
+
+```json
+{
+  "pathParams": {"format": "json", "issueId": 18830},
+  "bodyParams": {
+    "issue": {
+      "notes": "Adding checklist items via MCP - [timestamp]",
+      "checklists_attributes": [
+        {
+          "subject": "New item added via update",
+          "is_done": false
+        },
+        {
+          "subject": "Another new item",
+          "is_done": false
+        }
+      ]
+    }
+  }
+}
+```
+
+**Note:** First get existing checklists to avoid overwriting!
+
+#### Test Case 3: UPDATE CHECKLIST ITEMS
+
+Toggle checklist item status (mark as done/undone):
+
+**Step 1:** Get current ticket with checklists:
+```json
+{
+  "pathParams": {"format": "json", "issueId": 18830},
+  "queryParams": {"include": ["checklists"]}
+}
+```
+
+**Step 2:** Update specific checklist (e.g., ID 123):
+```json
+{
+  "pathParams": {"format": "json", "issueId": 18830},
+  "bodyParams": {
+    "issue": {
+      "notes": "Toggling checklist item - [timestamp]",
+      "checklists_attributes": [
+        {
+          "id": 123,
+          "is_done": true
+        }
+      ]
+    }
+  }
+}
+```
+
+**Advanced:** Update multiple items:
+```json
+{
+  "checklists_attributes": [
+    {"id": 123, "is_done": true, "subject": "Updated text"},
+    {"id": 124, "is_done": false},
+    {"id": 125, "position": 10}
+  ]
+}
+```
+
+#### Test Case 4: DELETE CHECKLIST ITEMS
+
+Remove checklist items using `_destroy`:
+
+```json
+{
+  "pathParams": {"format": "json", "issueId": 18830},
+  "bodyParams": {
+    "issue": {
+      "notes": "Removing checklist items - [timestamp]",
+      "checklists_attributes": [
+        {
+          "id": 123,
+          "_destroy": true
+        }
+      ]
+    }
+  }
+}
+```
+
+**Delete multiple:**
+```json
+{
+  "checklists_attributes": [
+    {"id": 123, "_destroy": true},
+    {"id": 124, "_destroy": true}
+  ]
+}
+```
+
+#### Complete Test Workflow
+
+```bash
+# 1. Create ticket with checklists
+/dev:mcp checklist create-with
+
+# 2. Verify in Redmine UI
+# Open: https://zp.informatik.tirol/issues/[new-ticket-id]
+# Check: Checklists are visible and correct
+
+# 3. Add more checklists to #18830
+/dev:mcp checklist add
+
+# 4. Get current state
+/dev:mcp get 18830
+
+# 5. Toggle some items
+/dev:mcp checklist update
+
+# 6. Delete items
+/dev:mcp checklist delete
+
+# 7. Verify final state
+/dev:mcp get 18830
+```
+
+#### Checklist Test Validation
+
+After each operation, verify in Redmine UI:
+- **Checklist Tab:** Items appear correctly
+- **Checkboxes:** is_done status matches
+- **Sections:** is_section items are headers
+- **Position:** Items in correct order
+- **Journal:** Update notes visible
+
+#### Error Cases to Test
+
+1. **Plugin not installed:**
+   - checklists_attributes is ignored
+   - No error, graceful degradation
+
+2. **Invalid checklist ID:**
+   - Error when using non-existent ID
+   - Check error message
+
+3. **Missing required field:**
+   - subject is required
+   - Test without subject
+
+4. **Permission issues:**
+   - User needs edit_checklists permission
+   - Test with restricted user
+
+#### Checklist Plugin Features
+
+**Supported Fields:**
+- `subject` (string, max 512 chars, required)
+- `is_done` (boolean, default: false)
+- `is_section` (boolean, default: false)
+- `position` (integer, auto-assigned if omitted)
+- `id` (integer, for updates only)
+- `_destroy` (boolean, for deletion)
+
+**Not Supported via API:**
+- Checklist templates
+- Bulk operations
+- Checklist copying
+- Advanced settings
+
 ## Development Workflow Examples
 
 ### Quick Test Cycle
@@ -332,6 +565,43 @@ pnpm dev
 # 3. Test with: /dev:mcp [new-action]
 # 4. Verify in Redmine UI
 # 5. Check logs in terminal
+```
+
+### Testing Checklist Plugin
+
+```bash
+# Complete checklist test suite
+# (Requires redmine_checklists plugin on server)
+
+# 1. Create ticket with initial checklists
+/dev:mcp checklist create-with
+# Verify: Open ticket in browser, check checklists tab
+
+# 2. Add more items to test ticket #18830
+/dev:mcp checklist add
+# Verify: Items added, not overwritten
+
+# 3. Get ticket and note checklist IDs
+/dev:mcp get 18830
+# Note: Checklist IDs for next steps
+
+# 4. Toggle checklist items (mark done/undone)
+/dev:mcp checklist update
+# Verify: Checkbox states changed
+
+# 5. Delete checklist items
+/dev:mcp checklist delete
+# Verify: Items removed from list
+
+# 6. Test error cases
+# - Try without plugin installed (should be ignored)
+# - Try with invalid checklist ID
+# - Try without required subject field
+
+# 7. Verify in Redmine UI
+# - https://zp.informatik.tirol/issues/18830
+# - Check checklists tab
+# - Verify journal entries
 ```
 
 ## Error Handling
@@ -405,11 +675,17 @@ pnpm debug                  # Start with debugger
 F5 in VS Code              # Debug mode
 
 # Common Commands
-/dev:mcp create "desc"     # New test ticket
-/dev:mcp update "changes"  # Update #18830 (FIXED)
-/dev:mcp get               # Get #18830 details
-/dev:mcp time 1.5 "work"   # Log 1.5h on #18830
-/dev:mcp status            # Check everything
+/dev:mcp create "desc"        # New test ticket
+/dev:mcp update "changes"     # Update #18830 (FIXED)
+/dev:mcp get                  # Get #18830 details
+/dev:mcp time 1.5 "work"      # Log 1.5h on #18830
+/dev:mcp status               # Check everything
+
+# Checklist Testing (requires plugin)
+/dev:mcp checklist create-with  # Create ticket with checklists
+/dev:mcp checklist add          # Add checklists to #18830
+/dev:mcp checklist update       # Toggle checklist items
+/dev:mcp checklist delete       # Remove checklist items
 
 # URLs
 Test Ticket: https://zp.informatik.tirol/issues/18830

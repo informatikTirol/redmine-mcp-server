@@ -48,6 +48,10 @@ tags:
     description: "Status: Alpha, Availablity: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_IssueRelations
+  - name: Checklists
+    description: "Plugin: redmine_checklists - Manage issue checklist items"
+    externalDocs:
+      url: https://www.redmineup.com/pages/plugins/checklists
   - name: Versions
     description: "Status: Alpha, Availablity: 1.3"
     externalDocs:
@@ -443,6 +447,11 @@ paths:
                       nullable: true
                     uploads:
                       $ref: "#/components/schemas/uploads"
+                    checklists_attributes:
+                      type: array
+                      description: Checklist items for this issue (requires redmine_checklists plugin)
+                      items:
+                        $ref: "#/components/schemas/checklist_attributes"
       responses:
         "201":
           description: ""
@@ -571,6 +580,11 @@ paths:
                       type: string
                     uploads:
                       $ref: "#/components/schemas/uploads"
+                    checklists_attributes:
+                      type: array
+                      description: Checklist items for this issue (requires redmine_checklists plugin)
+                      items:
+                        $ref: "#/components/schemas/checklist_attributes_update"
       responses:
         "204":
           description: ""
@@ -2026,6 +2040,123 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/errors"
+  /issues/{issueId}/checklists.{format}:
+    get:
+      tags:
+        - Checklists
+      summary: List checklists for issue
+      description: Get all checklist items for a specific issue (requires redmine_checklists plugin)
+      operationId: getChecklistsByIssue
+      parameters:
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - checklists
+                properties:
+                  checklists:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/checklist"
+                  total_count:
+                    type: integer
+    post:
+      tags:
+        - Checklists
+      summary: Create checklist item
+      description: Add a new checklist item to an issue (requires redmine_checklists plugin)
+      operationId: createChecklist
+      parameters:
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/checklist_create_body"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - checklist
+                properties:
+                  checklist:
+                    $ref: "#/components/schemas/checklist"
+  /checklists/{checklistId}.{format}:
+    get:
+      tags:
+        - Checklists
+      summary: Show checklist item
+      description: Get details of a specific checklist item (requires redmine_checklists plugin)
+      operationId: getChecklist
+      parameters:
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/checklist_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - checklist
+                properties:
+                  checklist:
+                    $ref: "#/components/schemas/checklist"
+    put:
+      tags:
+        - Checklists
+      summary: Update checklist item
+      description: Update an existing checklist item (requires redmine_checklists plugin)
+      operationId: updateChecklist
+      parameters:
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/checklist_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/checklist_update_body"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - checklist
+                properties:
+                  checklist:
+                    $ref: "#/components/schemas/checklist"
+    delete:
+      tags:
+        - Checklists
+      summary: Delete checklist item
+      description: Remove a checklist item (requires redmine_checklists plugin)
+      operationId: deleteChecklist
+      parameters:
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/checklist_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+      responses:
+        "204":
+          description: ""
   /projects/{projectId}/versions.{format}:
     get:
       tags:
@@ -3548,6 +3679,12 @@ components:
       required: true
       schema:
         type: integer
+    checklist_id:
+      name: checklistId
+      in: path
+      required: true
+      schema:
+        type: integer
     version_id:
       name: versionId
       in: path
@@ -3758,6 +3895,107 @@ components:
             type: string
           content_type:
             type: string
+    checklist_attributes:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: string
+          maxLength: 512
+          description: Checklist item text
+        is_done:
+          type: boolean
+          default: false
+          description: Completion status
+        is_section:
+          type: boolean
+          default: false
+          description: Header/section marker
+        position:
+          type: integer
+          description: Display order (auto-assigned if omitted)
+    checklist_attributes_update:
+      allOf:
+        - $ref: "#/components/schemas/checklist_attributes"
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: Existing checklist ID for updates
+            _destroy:
+              type: boolean
+              description: Set true to delete this checklist item
+    checklist:
+      type: object
+      required:
+        - id
+        - issue_id
+        - subject
+        - is_done
+        - position
+        - is_section
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+        issue_id:
+          type: integer
+        subject:
+          type: string
+          maxLength: 512
+        is_done:
+          type: boolean
+        position:
+          type: integer
+        is_section:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    checklist_create_body:
+      type: object
+      required:
+        - checklist
+      properties:
+        checklist:
+          type: object
+          required:
+            - subject
+          properties:
+            issue_id:
+              type: integer
+              description: Issue ID (can be omitted if creating via /issues/:id/checklists)
+            subject:
+              type: string
+              maxLength: 512
+            is_done:
+              type: boolean
+              default: false
+            is_section:
+              type: boolean
+              default: false
+            position:
+              type: integer
+    checklist_update_body:
+      type: object
+      properties:
+        checklist:
+          type: object
+          properties:
+            subject:
+              type: string
+              maxLength: 512
+            is_done:
+              type: boolean
+            is_section:
+              type: boolean
+            position:
+              type: integer
     issue:
       type: object
       required:
