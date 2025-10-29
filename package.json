@@ -12,7 +12,10 @@
   "scripts": {
     "gen": "rm -rf src/__generated__ && orval && node post-generate.js",
     "build": "pnpm gen && tsdown",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "dev": "pnpm gen && tsx watch src/server.ts",
+    "dev:nowatch": "pnpm gen && tsx src/server.ts",
+    "debug": "pnpm gen && tsx --inspect src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -31,8 +34,10 @@
   "homepage": "https://github.com/informatikTirol/redmine-mcp-server#readme",
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "dotenv": "^17.2.3",
     "orval": "^7.10.0",
     "tsdown": "^0.12.9",
+    "tsx": "^4.20.6",
     "typescript": "^5.8.3"
   },
   "dependencies": {

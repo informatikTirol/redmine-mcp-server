@@ -1,0 +1,55 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug MCP Server",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["debug"],
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "smartStep": true,
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Attach to Running Debug Session",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "smartStep": true
+    },
+    {
+      "name": "Debug Server (No Watch)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev:nowatch"],
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "smartStep": true,
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Debug with tsx directly",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
+      "runtimeArgs": ["--inspect", "${workspaceFolder}/src/server.ts"],
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "smartStep": true,
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "generate-code"
+    }
+  ]
+}

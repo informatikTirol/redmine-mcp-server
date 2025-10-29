@@ -2,6 +2,16 @@
  * Configuration management for Redmine MCP Server
  */
 
+// Load .env file in development mode (only if not in production)
+if (process.env.NODE_ENV !== "production") {
+  try {
+    const dotenv = await import("dotenv");
+    dotenv.config();
+  } catch (error) {
+    // dotenv is optional, ignore if not available
+  }
+}
+
 export interface ServerConfig {
   readOnlyMode: boolean;
   redmineUrl: string;
