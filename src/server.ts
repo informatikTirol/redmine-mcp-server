@@ -528,34 +528,36 @@ registerTool(
 */
 
 // Time Entries
-registerTool(
-  "getTimeEntries",
-  "List time entries",
-  ToolType.READ_ONLY,
-  { pathParams: getTimeEntriesParams, queryParams: getTimeEntriesQueryParams },
-  getTimeEntriesHandler
-);
-registerTool(
-  "createTimeEntry",
-  "Create time entry",
-  ToolType.WRITE,
-  { pathParams: createTimeEntryParams, bodyParams: createTimeEntryBody },
-  createTimeEntryHandler
-);
-// registerTool(
-//   "getTimeEntry",
-//   "Show time entry",
-//   ToolType.READ_ONLY,
-//   { pathParams: getTimeEntryParams },
-//   getTimeEntryHandler
-// );
-registerTool(
-  "updateTimeEntry",
-  "Update time entry",
-  ToolType.WRITE,
-  { pathParams: updateTimeEntryParams, bodyParams: updateTimeEntryBody },
-  updateTimeEntryHandler
-);
+if (config.features.timeEntries) {
+  registerTool(
+    "getTimeEntries",
+    "List time entries",
+    ToolType.READ_ONLY,
+    { pathParams: getTimeEntriesParams, queryParams: getTimeEntriesQueryParams },
+    getTimeEntriesHandler
+  );
+  registerTool(
+    "createTimeEntry",
+    "Create time entry",
+    ToolType.WRITE,
+    { pathParams: createTimeEntryParams, bodyParams: createTimeEntryBody },
+    createTimeEntryHandler
+  );
+  // registerTool(
+  //   "getTimeEntry",
+  //   "Show time entry",
+  //   ToolType.READ_ONLY,
+  //   { pathParams: getTimeEntryParams },
+  //   getTimeEntryHandler
+  // );
+  registerTool(
+    "updateTimeEntry",
+    "Update time entry",
+    ToolType.WRITE,
+    { pathParams: updateTimeEntryParams, bodyParams: updateTimeEntryBody },
+    updateTimeEntryHandler
+  );
+}
 // registerTool(
 //   "deleteTimeEntry",
 //   "Delete time entry",
@@ -614,23 +616,25 @@ registerTool(
 */
 
 // Issue Relations
-registerTool(
-  "getIssueRelations",
-  "List issue relations",
-  ToolType.READ_ONLY,
-  { pathParams: getIssueRelationsParams },
-  getIssueRelationsHandler
-);
-registerTool(
-  "createIssueRelation",
-  "Create issue relation",
-  ToolType.WRITE,
-  {
-    pathParams: createIssueRelationParams,
-    bodyParams: createIssueRelationBody,
-  },
-  createIssueRelationHandler
-);
+if (config.features.relations) {
+  registerTool(
+    "getIssueRelations",
+    "List issue relations",
+    ToolType.READ_ONLY,
+    { pathParams: getIssueRelationsParams },
+    getIssueRelationsHandler
+  );
+  registerTool(
+    "createIssueRelation",
+    "Create issue relation",
+    ToolType.WRITE,
+    {
+      pathParams: createIssueRelationParams,
+      bodyParams: createIssueRelationBody,
+    },
+    createIssueRelationHandler
+  );
+}
 // getIssueRelation - DISABLED (not needed, getIssueRelations is sufficient)
 // deleteIssueRelation - DISABLED (not needed)
 /*
@@ -650,53 +654,58 @@ registerTool(
 );
 */
 
-// Checklists
-registerTool(
-  "getChecklistsByIssue",
-  "List checklists for issue",
-  ToolType.READ_ONLY,
-  { pathParams: getChecklistsByIssueParams },
-  getChecklistsByIssueHandler
-);
-registerTool(
-  "createChecklist",
-  "Create checklist item",
-  ToolType.WRITE,
-  { pathParams: createChecklistParams, bodyParams: createChecklistBody },
-  createChecklistHandler
-);
-registerTool(
-  "getChecklist",
-  "Show checklist item",
-  ToolType.READ_ONLY,
-  { pathParams: getChecklistParams },
-  getChecklistHandler
-);
-registerTool(
-  "updateChecklist",
-  "Update checklist item",
-  ToolType.WRITE,
-  { pathParams: updateChecklistParams, bodyParams: updateChecklistBody },
-  updateChecklistHandler
-);
-registerTool(
-  "deleteChecklist",
-  "Delete checklist item",
-  ToolType.WRITE,
-  { pathParams: deleteChecklistParams },
-  deleteChecklistHandler
-);
+// Checklists (requires redmine_checklists plugin)
+if (config.features.checklists) {
+  registerTool(
+    "getChecklistsByIssue",
+    "List checklists for issue",
+    ToolType.READ_ONLY,
+    { pathParams: getChecklistsByIssueParams },
+    getChecklistsByIssueHandler
+  );
+  registerTool(
+    "createChecklist",
+    "Create checklist item",
+    ToolType.WRITE,
+    { pathParams: createChecklistParams, bodyParams: createChecklistBody },
+    createChecklistHandler
+  );
+  registerTool(
+    "getChecklist",
+    "Show checklist item",
+    ToolType.READ_ONLY,
+    { pathParams: getChecklistParams },
+    getChecklistHandler
+  );
+  registerTool(
+    "updateChecklist",
+    "Update checklist item",
+    ToolType.WRITE,
+    { pathParams: updateChecklistParams, bodyParams: updateChecklistBody },
+    updateChecklistHandler
+  );
+  registerTool(
+    "deleteChecklist",
+    "Delete checklist item",
+    ToolType.WRITE,
+    { pathParams: deleteChecklistParams },
+    deleteChecklistHandler
+  );
+}
 
-registerTool(
-  "getVersionsByProject",
-  "List versions by project",
-  ToolType.READ_ONLY,
-  {
-    pathParams: getVersionsByProjectParams,
-    queryParams: getVersionsByProjectQueryParams,
-  },
-  getVersionsByProjectHandler
-);
+// Versions
+if (config.features.versions) {
+  registerTool(
+    "getVersionsByProject",
+    "List versions by project",
+    ToolType.READ_ONLY,
+    {
+      pathParams: getVersionsByProjectParams,
+      queryParams: getVersionsByProjectQueryParams,
+    },
+    getVersionsByProjectHandler
+  );
+}
 // Versions - DISABLED
 /*
 registerTool(
