@@ -187,6 +187,7 @@ All features are **enabled by default**. Set these to `true` to disable specific
 - **REDMINE_MCP_DISABLE_RELATIONS**: Disable issue relations tools
 - **REDMINE_MCP_DISABLE_TIME_ENTRIES**: Disable time entry tools
 - **REDMINE_MCP_DISABLE_VERSIONS**: Disable version/milestone tools
+- **REDMINE_MCP_DISABLE_WATCHERS**: Disable watcher tools
 
 **Use Case**: Reduce tool count for specific workflows or when plugins are not available.
 
