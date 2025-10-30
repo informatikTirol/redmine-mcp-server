@@ -12,3 +12,4 @@ src/redmine_plugins/
 # Internal documentation (contains real credentials/URLs, keep local only)
 doc/configuration.md
 DEPLOYMENT.md
+DEVELOPMENT.md
