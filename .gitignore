@@ -5,3 +5,4 @@ dist/
 
 # Reference material - Redmine plugins for documentation
 src/redmine_plugins/
+.claude/commands/dev-mcp.md
