@@ -14,3 +14,6 @@ doc/configuration.md
 DEPLOYMENT.md
 DEVELOPMENT.md
 CLAUDE.md
+
+# Backup script (local only)
+backup-local-files.sh
