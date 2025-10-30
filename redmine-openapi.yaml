@@ -520,6 +520,10 @@ paths:
             schema:
               type: object
               properties:
+                suppress_mail:
+                  type: string
+                  description: "Set to '1' to suppress email notifications (requires redmine_silencer plugin)"
+                  enum: ['0', '1']
                 issue:
                   type: object
                   properties:

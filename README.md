@@ -26,17 +26,18 @@ Model Context Protocol (MCP) server for Redmine that provides comprehensive acce
 
 This project is an MCP server that comprehensively covers Redmine's [REST API](https://www.redmine.org/projects/redmine/wiki/rest_api). It allows you to operate Redmine from MCP clients (such as Claude Desktop).
 
-## What's New in v1.2.0
+## What's New in v1.2.2
 
-🎉 Major feature enhancements:
+🎉 Major feature enhancements since v1.0.0:
 
-- **Feature Flags**: Granular control over enabled features - disable specific tool groups via environment variables
-- **Checklists Plugin**: Full support for redmine_checklists plugin (create, read, update, delete checklist items)
-- **Issue Relations**: Create and manage relationships between issues (blocks, duplicates, relates, etc.)
-- **Watchers**: Add users as watchers to issues
-- **Enhanced Time Tracking**: Create and update time entries with full activity support
-- **Versions Support**: Access project versions and milestones
-- **Comprehensive Documentation**: New docs covering all features, configuration options, and plugin integration
+- **Email Notification Suppression** (v1.2.2): Silent issue updates without sending emails - `suppress_mail` parameter for `updateIssue` (requires redmine_silencer plugin)
+- **Watcher Support** (v1.2.1): Add users as watchers to issues with dedicated `addWatcher` tool
+- **Feature Flags** (v1.2.0): Granular control over enabled features - disable specific tool groups via environment variables
+- **Checklists Plugin** (v1.2.0): Full support for redmine_checklists plugin (create, read, update, delete checklist items)
+- **Issue Relations** (v1.2.0): Create and manage relationships between issues (blocks, duplicates, relates, etc.)
+- **Enhanced Time Tracking** (v1.2.0): Create and update time entries with full activity support
+- **Versions Support** (v1.2.0): Access project versions and milestones
+- **Comprehensive Documentation** (v1.2.0): New docs covering all features, configuration options, and plugin integration
 
 All optional features are **enabled by default** but can be selectively disabled for minimal tool footprint.
 
@@ -80,7 +81,7 @@ This MCP server provides comprehensive access to Redmine's REST API with the fol
 - ✅ **getIssues** - List issues with filtering
 - ✅ **createIssue** - Create new issue
 - ✅ **getIssue** - Show issue details
-- ✅ **updateIssue** - Update existing issue
+- ✅ **updateIssue** - Update existing issue (supports email suppression)
 
 #### Search
 - ✅ **search** - Global search across Redmine
@@ -148,6 +149,7 @@ See [doc/features.md](doc/features.md) for complete feature documentation.
 - 📦 **Version Management**: Access project versions/milestones
 - 👁️ **Watchers**: Add users as watchers to issues
 - 🔍 **Advanced Search**: Global search across Redmine instances
+- 🔕 **Email Suppression**: Optional email notification control for issue operations (requires redmine_silencer plugin)
 - 🛡️ **Type Safety**: Full TypeScript support with Zod schema validation
 - 🔧 **Auto-Generated**: API client generated from OpenAPI specification
 
@@ -404,6 +406,43 @@ To use checklist tools, install the **redmine_checklists** plugin on your Redmin
 - Fully integrated with MCP server
 - Auto-disabled if `REDMINE_MCP_DISABLE_CHECKLISTS=true`
 
+### Email Notification Control (Optional)
+
+To suppress email notifications when updating issues, install the **redmine_silencer** plugin:
+
+- Plugin: https://github.com/paginagmbh/redmine_silencer
+- Allows silent issue updates without sending notification emails
+- Useful for bulk operations or automated workflows
+- **Only works with `updateIssue`** - issue creation always sends notifications
+
+**Usage Example:**
+
+```typescript
+// Update issue silently (no emails sent to watchers)
+updateIssue({
+  suppress_mail: "1",
+  issue: {
+    status_id: 2,
+    notes: "Silent update - no email notifications"
+  }
+})
+
+// Bulk update example
+updateIssue({
+  suppress_mail: "1",
+  issue: {
+    assigned_to_id: 5,
+    priority_id: 3,
+    done_ratio: 50
+  }
+})
+```
+
+**Important Notes:**
+- ⚠️ **Issue creation (`createIssue`) does NOT support email suppression** - the plugin only hooks into update operations
+- If you need to create issues without notifications, don't assign users or add watchers initially
+- If the plugin is not installed, the `suppress_mail` parameter is gracefully ignored (no error)
+
 ## Development
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for:
@@ -414,14 +453,24 @@ See [DEVELOPMENT.md](DEVELOPMENT.md) for:
 
 ## Changelog
 
+### v1.2.2 (Upcoming)
+- **Email Notification Suppression**: Added `suppress_mail` parameter for `updateIssue` tool (requires redmine_silencer plugin)
+- Silent issue updates without sending notification emails to watchers
+- Graceful degradation when plugin is not installed
+- **Note**: Issue creation (`createIssue`) does not support email suppression due to plugin limitations - the redmine_silencer plugin only hooks into update operations
+
+### v1.2.1 (2025-10-30)
+- **Watcher Support**: Added `addWatcher` tool to add users as watchers to issues
+- **Feature Flag**: New `REDMINE_MCP_DISABLE_WATCHERS` environment variable to disable watcher tools
+- Enhanced README documentation for watcher functionality
+
 ### v1.2.0 (2025-10-29)
-- Added feature flags for configurable tool sets
-- Full checklist plugin support (CRUD operations)
-- Issue relations management
-- Watcher support
-- Enhanced time entry tools
-- Version/milestone access
-- Comprehensive documentation
+- **Feature Flags**: Granular control over enabled features via environment variables
+- **Checklists Plugin**: Full support for redmine_checklists plugin (create, read, update, delete checklist items)
+- **Issue Relations**: Create and manage relationships between issues (blocks, duplicates, relates, etc.)
+- **Time Tracking**: Enhanced time entry tools with activity support
+- **Versions Support**: Access project versions and milestones
+- **Comprehensive Documentation**: New docs covering all features, configuration options, and plugin integration
 
 ### v1.1.3
 - Added time entry creation and updates
