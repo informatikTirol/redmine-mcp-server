@@ -8,3 +8,7 @@ src/redmine_plugins/
 
 # Claude Code configuration (keep local only)
 .claude/
+
+# Internal documentation (contains real credentials/URLs, keep local only)
+doc/configuration.md
+DEPLOYMENT.md

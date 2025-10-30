@@ -301,7 +301,7 @@ Comprehensive command for testing the local MCP server:
 # Create new test ticket
 /dev:mcp create "Testing new feature"
 
-# Update fixed test ticket #18830
+# Update fixed test ticket #12345
 /dev:mcp update "Testing update functionality"
 
 # Get ticket details
@@ -315,7 +315,7 @@ Comprehensive command for testing the local MCP server:
 ```
 
 **Key Features:**
-- Fixed test ticket (#18830) for consistent update testing
+- Fixed test ticket (#12345) for consistent update testing
 - Automatic timestamp tracking
 - Server status monitoring
 - Time entry management

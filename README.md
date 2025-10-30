@@ -171,7 +171,7 @@ For details, refer to [Redmine REST API documentation](https://www.redmine.org/p
 #### Required Variables
 
 - **REDMINE_URL** (Required): Base URL of the Redmine instance
-  - Example: `https://devops.geobility.systems`
+  - Example: `https://redmine.example.com`
 - **REDMINE_API_KEY** (Required): API key generated in Redmine
   - Set the API key obtained in prerequisites
 
@@ -204,7 +204,7 @@ Add the following as MCP configuration for your AI agent:
       "command": "npx",
       "args": ["-y", "@informatik_tirol/redmine-mcp-server"],
       "env": {
-        "REDMINE_URL": "https://devops.geobility.systems",
+        "REDMINE_URL": "https://redmine.example.com",
         "REDMINE_API_KEY": "your-api-key-here",
         "REDMINE_MCP_READ_ONLY": "true"
       }
@@ -226,7 +226,7 @@ Add the following to `claude_desktop_config.json`:
       "command": "npx",
       "args": ["-y", "@informatik_tirol/redmine-mcp-server"],
       "env": {
-        "REDMINE_URL": "https://devops.geobility.systems",
+        "REDMINE_URL": "https://redmine.example.com",
         "REDMINE_API_KEY": "your-api-key-here",
         "REDMINE_MCP_READ_ONLY": "true"
       }
@@ -243,19 +243,19 @@ In Claude Code, you can add MCP servers using the following commands:
 ```bash
 # Local configuration (current project only)
 claude mcp add redmine \
-  -e REDMINE_URL=https://devops.geobility.systems \
+  -e REDMINE_URL=https://redmine.example.com \
   -e REDMINE_API_KEY=your-api-key-here \
   -- npx -y @informatik_tirol/redmine-mcp-server
 
 # Project configuration (committed to git)
 claude mcp add -s project redmine \
-  -e REDMINE_URL=https://devops.geobility.systems \
+  -e REDMINE_URL=https://redmine.example.com \
   -e REDMINE_API_KEY=your-api-key-here \
   -- npx -y @informatik_tirol/redmine-mcp-server
 
 # User configuration (global - all projects)
 claude mcp add -s user redmine \
-  -e REDMINE_URL=https://devops.geobility.systems \
+  -e REDMINE_URL=https://redmine.example.com \
   -e REDMINE_API_KEY=your-api-key-here \
   -- npx -y @informatik_tirol/redmine-mcp-server
 ```
@@ -263,7 +263,7 @@ claude mcp add -s user redmine \
 **Read-Only Mode (Safe for Production):**
 ```bash
 claude mcp add -s user redmine \
-  -e REDMINE_URL=https://devops.geobility.systems \
+  -e REDMINE_URL=https://redmine.example.com \
   -e REDMINE_API_KEY=your-api-key-here \
   -e REDMINE_MCP_READ_ONLY=true \
   -- npx -y @informatik_tirol/redmine-mcp-server
@@ -273,7 +273,7 @@ claude mcp add -s user redmine \
 ```bash
 # Minimal setup - Core features only (no plugins)
 claude mcp add -s user redmine \
-  -e REDMINE_URL=https://devops.geobility.systems \
+  -e REDMINE_URL=https://redmine.example.com \
   -e REDMINE_API_KEY=your-api-key-here \
   -e REDMINE_MCP_DISABLE_CHECKLISTS=true \
   -e REDMINE_MCP_DISABLE_RELATIONS=true \
@@ -284,7 +284,7 @@ claude mcp add -s user redmine \
 
 # Checklists only (with plugin support)
 claude mcp add -s user redmine \
-  -e REDMINE_URL=https://devops.geobility.systems \
+  -e REDMINE_URL=https://redmine.example.com \
   -e REDMINE_API_KEY=your-api-key-here \
   -e REDMINE_MCP_DISABLE_RELATIONS=true \
   -e REDMINE_MCP_DISABLE_TIME_ENTRIES=true \
@@ -294,7 +294,7 @@ claude mcp add -s user redmine \
 
 # Time tracking focus
 claude mcp add -s user redmine \
-  -e REDMINE_URL=https://devops.geobility.systems \
+  -e REDMINE_URL=https://redmine.example.com \
   -e REDMINE_API_KEY=your-api-key-here \
   -e REDMINE_MCP_DISABLE_CHECKLISTS=true \
   -e REDMINE_MCP_DISABLE_RELATIONS=true \
@@ -324,7 +324,7 @@ Project configuration (`.vscode/mcp.json`):
       "command": "npx",
       "args": ["-y", "@informatik_tirol/redmine-mcp-server"],
       "env": {
-        "REDMINE_URL": "https://devops.geobility.systems",
+        "REDMINE_URL": "https://redmine.example.com",
         "REDMINE_API_KEY": "your-api-key-here",
         "REDMINE_MCP_READ_ONLY": "true"
       }
@@ -344,7 +344,7 @@ User configuration (`settings.json`):
         "command": "npx",
         "args": ["-y", "@informatik_tirol/redmine-mcp-server"],
         "env": {
-          "REDMINE_URL": "https://devops.geobility.systems",
+          "REDMINE_URL": "https://redmine.example.com",
           "REDMINE_API_KEY": "your-api-key-here",
           "REDMINE_MCP_READ_ONLY": "true"
         }
