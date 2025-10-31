@@ -4,7 +4,7 @@
   "description": "MCP server for Redmine",
   "type": "module",
   "bin": {
-    "redmine-mcp-server": "./dist/server.mjs"
+    "redmine-mcp-server": "dist/server.mjs"
   },
   "files": [
     "dist/**/*"
