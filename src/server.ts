@@ -637,9 +637,15 @@ if (config.features.relations) {
     },
     createIssueRelationHandler
   );
+  registerTool(
+    "deleteIssueRelation",
+    "Delete issue relation",
+    ToolType.WRITE,
+    { pathParams: deleteIssueRelationParams },
+    deleteIssueRelationHandler
+  );
 }
 // getIssueRelation - DISABLED (not needed, getIssueRelations is sufficient)
-// deleteIssueRelation - DISABLED (not needed)
 /*
 registerTool(
   "getIssueRelation",
@@ -647,13 +653,6 @@ registerTool(
   ToolType.READ_ONLY,
   { pathParams: getIssueRelationParams },
   getIssueRelationHandler
-);
-registerTool(
-  "deleteIssueRelation",
-  "Delete issue relation",
-  ToolType.WRITE,
-  { pathParams: deleteIssueRelationParams },
-  deleteIssueRelationHandler
 );
 */
 
